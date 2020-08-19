@@ -1,10 +1,22 @@
-## This code is adopted from GCNR paper. The original code was matlab but I implemented it in the R. Reference: Rodriguez-Molares et. al,
-## 2019. The generalized contrast-to-noise ratio: a formal definition for lesion detectability. IEEE Transactions on Ultrasonics,
-## Ferroelectrics, and Frequency Control Codebase: No code base is available. please contact to <alfonso.r.molares@ntnu.no>
-
-## reimplemented by Seongyong Park (2020-08-18) The original implementation used fixed sized bin (n=100) but I used adaptive bin size
-## selection method proposed in C. J. Cellucci, A. M. Albano, and P. E. Rapp, <U+653C><U+3E32>\u0080?Statistical validation of mutual information
-## calculations: Comparison of alternative numerical algorithms,<U+653C><U+3E32>\u0080<U+393C><U+3E64> Physical Review E, vol. 71, no. 6, p. 066208, 2005.
+#' Calculate distribution overlap by histogram
+#'
+#' @param x1 A numeric vector.
+#' @param x2 A numeric vector.
+#' @examples
+#' x1 = rnorm(100, 0)
+#' x2 = rnorm(100, 1)
+#' ovl_hist(x1, x2)
+#' @description
+#' Calculate distribution overlap by histogram. Width of bin is adjusted according to the number of samples.
+#' This function compares two estimated distributions by histogram.
+#' It utilizes hist function in R.
+#' @references
+#' This code is adopted from GCNR paper. (\href{https://ieeexplore.ieee.org/document/8918059}{paper})
+#' The original code was matlab but I implemented it in the R.
+#' No code base is available. please contact to Alfonso <\email{alfonso.r.molares@@ntnu.no}>
+#' The original implementation used fixed sized bin (n=100) but I used adaptive bin size
+#' selection method proposed in PRE. (\href{https://journals.aps.org/pre/abstract/10.1103/PhysRevE.71.066208}{paper})
+#' @author Seongyong Park (2020-08-18)
 
 ovl_hist <- function(x1, x2) {
 

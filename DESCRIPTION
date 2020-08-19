@@ -1,11 +1,19 @@
 Package: ovltools
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Tools for estimating distribution overlap between two sample distributions
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Seongyong Park
+Maintainer: Seongyong Park <psychemistz@gmail.com>
+Description: ovltools provides some of known tools for estimating distribution overlap between two sample distributions.  
+    It provides KNN, KDE, Histogram, Distribution fitting based distribution overlap calculation and 
+    permutation test based signifiance testing. User can utilize this package for any perpose. 
+License: MIT
 Encoding: UTF-8
 LazyData: true
+Imports:
+    FNN,
+    fitdistrplus
+Suggests:
+    dplyr,
+    ggplot2
+RoxygenNote: 7.1.1

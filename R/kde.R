@@ -1,9 +1,22 @@
-## This code is adopted from overlapping paper.  Reference: Pastore, M.,Calcagnì, A. (2019). Measuring Distribution Similarities Between
-## Samples: A Distribution-Free Overlapping Index. Frontiers in Psychology, 10:1089. URL: https://doi.org/10.3389/fpsyg.2019.01089
-## Codebase: https://github.com/masspastore/overlapping
-
-## Modified by Seongyong Park (2020-08-18) overlap function in overlapping package provides distribution overlap based on kernel density
-## estimation (KDE).  The original package used base density function to perform KDE.
+#' Calculate distribution overlap by KDE
+#'
+#' @param x1 A numeric vector.
+#' @param x2 A numeric vector.
+#' @param n An integer. Number of bins in KDE.
+#' @examples
+#' x1 = rnorm(100, 0)
+#' x2 = rnorm(100, 1)
+#' ovl_kde(x1, x2, n=1024)
+#' @description
+#' Calculate distribution overlap by KDE (Kernel Density Estimation)
+#' This function compares two estimated distributions by KDE method.
+#' It utilizes base density function in R.
+#' @references
+#' This code is adopted from overlapping package (\href{https://doi.org/10.3389/fpsyg.2019.01089}{paper})
+#' and modified by Seongyong Park.
+#' You can find original implementation in overlapping R package.
+#' (\href{https://github.com/masspastore/overlapping}{github})
+#' @author Seongyong Park (2020-08-18)
 
 ovl_kde <- function(x1, x2, n = 1024) {
 
