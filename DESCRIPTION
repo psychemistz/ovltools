@@ -15,5 +15,7 @@ Imports:
     fitdistrplus
 Suggests:
     dplyr,
+    tidyr,
+    overlapping,
     ggplot2
 RoxygenNote: 7.1.1
