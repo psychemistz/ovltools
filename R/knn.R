@@ -3,6 +3,7 @@
 #' @param x1 A numeric vector.
 #' @param x2 A numeric vector.
 #' @param k An integer. Number of k in KNN
+#' @return estimated overlap between two distributions (range: 0 to 1)
 #' @examples
 #' x1 = rnorm(100, 0)
 #' x2 = rnorm(100, 1)

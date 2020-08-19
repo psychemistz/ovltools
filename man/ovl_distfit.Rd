@@ -13,6 +13,9 @@ ovl_distfit(x1, x2, family = c("norm", "lognorm", ...))
 
 \item{family}{A string to specify the distribution family.}
 }
+\value{
+estimated overlap between two distributions (range: 0 to 1)
+}
 \description{
 Calculate distribution overlap by distribution fitting.
 User need to specify which distribution family to use.
@@ -23,6 +26,9 @@ It utilizes fitdist function in fitdistrplus R package.
 x1 = rnorm(100, 0)
 x2 = rnorm(100, 1)
 ovl_distfit(x1, x2, family="norm")
+}
+\seealso{
+\code{\link[fitdistrplus]{fitdist}}
 }
 \author{
 Seongyong Park (2020-08-18)

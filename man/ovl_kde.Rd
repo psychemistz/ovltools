@@ -13,6 +13,9 @@ ovl_kde(x1, x2, n = 1024)
 
 \item{n}{An integer. Number of bins in KDE.}
 }
+\value{
+estimated overlap between two distributions (range: 0 to 1)
+}
 \description{
 Calculate distribution overlap by KDE (Kernel Density Estimation)
 This function compares two estimated distributions by KDE method.
@@ -28,6 +31,9 @@ This code is adopted from overlapping package (\href{https://doi.org/10.3389/fps
 and modified by Seongyong Park.
 You can find original implementation in overlapping R package.
 (\href{https://github.com/masspastore/overlapping}{github})
+}
+\seealso{
+\code{\link[overlapping]{overlap}}
 }
 \author{
 Seongyong Park (2020-08-18)

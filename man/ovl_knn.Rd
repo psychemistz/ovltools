@@ -13,6 +13,9 @@ ovl_knn(x1, x2, k = 5)
 
 \item{k}{An integer. Number of k in KNN}
 }
+\value{
+estimated overlap between two distributions (range: 0 to 1)
+}
 \description{
 Calculate distribution overlap by KNN (K-Nearest neighbor) This function compares label of K-nearest neighbors and
 calculate how many labels are mismatch.

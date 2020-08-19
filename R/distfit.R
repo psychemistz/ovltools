@@ -3,6 +3,7 @@
 #' @param x1 A numeric vector.
 #' @param x2 A numeric vector.
 #' @param family A string to specify the distribution family.
+#' @return estimated overlap between two distributions (range: 0 to 1)
 #' @examples
 #' x1 = rnorm(100, 0)
 #' x2 = rnorm(100, 1)
@@ -13,6 +14,7 @@
 #' This function estimates population distribution from sample distributions.
 #' It utilizes fitdist function in fitdistrplus R package.
 #' @author Seongyong Park (2020-08-18)
+#' @seealso \code{\link[fitdistrplus]{fitdist}}
 
 ovl_distfit <- function(x1, x2, family = c("norm", "lognorm", ...)) {
 

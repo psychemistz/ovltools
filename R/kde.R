@@ -3,6 +3,7 @@
 #' @param x1 A numeric vector.
 #' @param x2 A numeric vector.
 #' @param n An integer. Number of bins in KDE.
+#' @return estimated overlap between two distributions (range: 0 to 1)
 #' @examples
 #' x1 = rnorm(100, 0)
 #' x2 = rnorm(100, 1)
@@ -17,6 +18,7 @@
 #' You can find original implementation in overlapping R package.
 #' (\href{https://github.com/masspastore/overlapping}{github})
 #' @author Seongyong Park (2020-08-18)
+#' @seealso \code{\link[overlapping]{overlap}}
 
 ovl_kde <- function(x1, x2, n = 1024) {
 

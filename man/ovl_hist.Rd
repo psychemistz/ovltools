@@ -11,6 +11,9 @@ ovl_hist(x1, x2)
 
 \item{x2}{A numeric vector.}
 }
+\value{
+estimated overlap between two distributions (range: 0 to 1)
+}
 \description{
 Calculate distribution overlap by histogram. Width of bin is adjusted according to the number of samples.
 This function compares two estimated distributions by histogram.
