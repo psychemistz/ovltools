@@ -126,11 +126,11 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">method</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">method</span>,
                        <span class="kw">levels</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CDF"</span>, <span class="st">"PDF"</span>, <span class="st">"KS"</span>, <span class="st">"Hist"</span>,
                                 <span class="st">"DistFit"</span>, <span class="st">"KDE"</span>, <span class="st">"KNN"</span>))) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">dx</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">value</span>, <span class="kw">col</span><span class="kw">=</span><span class="no">method</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Deviation"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"value"</span>)</pre></body></html></div>
+  <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">dx</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">value</span>, <span class="kw">col</span><span class="kw">=</span><span class="no">method</span>)) +
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point</a></span>() +
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggtheme.html">theme_bw</a></span>() +
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">xlab</a></span>(<span class="st">"Deviation"</span>) +
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">ylab</a></span>(<span class="st">"value"</span>)</pre></body></html></div>
 <p><img src="ovltools_files/figure-html/deviation_exp-1.png" width="691.2" style="display: block; margin: auto;"></p>
 <ul>
 <li><p>CDF: Cumulative Distribution Function</p></li>
@@ -192,12 +192,12 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">method</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">method</span>,
                        <span class="kw">levels</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CDF"</span>, <span class="st">"PDF"</span>, <span class="st">"KS"</span>, <span class="st">"Hist"</span>, <span class="st">"DistFit"</span>,
                                 <span class="st">"KDE"</span>, <span class="st">"KDE_pkg"</span>, <span class="st">"KNN"</span>, <span class="st">"Rvalue"</span>))) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">method</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">value</span>, <span class="kw">col</span><span class="kw">=</span><span class="no">method</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span>(<span class="kw">shape</span><span class="kw">=</span><span class="fl">16</span>, <span class="kw">position</span><span class="kw">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html">position_jitter</a></span>(<span class="fl">0.2</span>))+
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"methods"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"value"</span>)</pre></body></html></div>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">method</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">value</span>, <span class="kw">col</span><span class="kw">=</span><span class="no">method</span>)) +
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_violin.html">geom_violin</a></span>() +
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_jitter.html">geom_jitter</a></span>(<span class="kw">shape</span><span class="kw">=</span><span class="fl">16</span>, <span class="kw">position</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/position_jitter.html">position_jitter</a></span>(<span class="fl">0.2</span>))+
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggtheme.html">theme_bw</a></span>() +
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">xlab</a></span>(<span class="st">"methods"</span>) +
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">ylab</a></span>(<span class="st">"value"</span>)</pre></body></html></div>
 <p><img src="ovltools_files/figure-html/random_samp_exp-1.png" width="691.2" style="display: block; margin: auto;"></p>
 <p>As you may see in the figure, implementation in ovltools are essentially the same as the implemted functions in other packages. It is worth to say that histogram based overlap estimation is the most closely estimate true CDF overlap except distribution fitting. However distribution fitting needs to a priori knowledge about the underlying distribution. Therefore, histogram based method is generally better than other methods. Kolomogrov-smirnov test statistic <span class="math inline">\(D\)</span> provide similar trends but since it calculates maximum distance between two CDFs, it did not match with true overlap between two CDFs.</p>
 </div>
