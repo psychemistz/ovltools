@@ -44,4 +44,4 @@ hist(x2, add=T)
 
 ## Author
 
-[Seongyong Park](psychemistz@gmail.com)
+Seongyong Park (<psychemistz@gmail.com>)
