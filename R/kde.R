@@ -8,6 +8,7 @@
 #' x1 = rnorm(100, 0)
 #' x2 = rnorm(100, 1)
 #' ovl_kde(x1, x2, n=1024)
+#' @export
 #' @description
 #' Calculate distribution overlap by KDE (Kernel Density Estimation)
 #' This function compares two estimated distributions by KDE method.

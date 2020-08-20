@@ -7,6 +7,7 @@
 #' x1 = rnorm(100, 0)
 #' x2 = rnorm(100, 1)
 #' ovl_hist(x1, x2)
+#' @export
 #' @description
 #' Calculate distribution overlap by histogram. Width of bin is adjusted according to the number of samples.
 #' This function compares two estimated distributions by histogram.

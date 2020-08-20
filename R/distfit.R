@@ -8,6 +8,7 @@
 #' x1 = rnorm(100, 0)
 #' x2 = rnorm(100, 1)
 #' ovl_distfit(x1, x2, family="norm")
+#' @export
 #' @description
 #' Calculate distribution overlap by distribution fitting.
 #' User need to specify which distribution family to use.

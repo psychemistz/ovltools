@@ -8,6 +8,7 @@
 #' x1 = rnorm(100, 0)
 #' x2 = rnorm(100, 1)
 #' ovl_knn(x1, x2, k=5)
+#' @export
 #' @description
 #' Calculate distribution overlap by KNN (K-Nearest neighbor) This function compares label of K-nearest neighbors and
 #' calculate how many labels are mismatch.
@@ -55,6 +56,7 @@ ovl_knn <- function(x1, x2, k = 5) {
 #' ds = c(rnorm(100, 0), rnorm(100, 1), rnorm(100,2))
 #' cl = c(rep(0,100), rep(1,100), rep(2,100))
 #' Rvalue(ds, cl, k=5)
+#' @export
 #' @description
 #' Calculate distribution overlap by KNN (K-Nearest neighbor)
 #' This function is the original implementation of Rvalue. It works with more than 3 classes.
