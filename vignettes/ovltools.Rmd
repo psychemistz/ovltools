@@ -7,7 +7,6 @@ vignette: >
   %\VignetteIndexEntry{ovltools}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  \usepackage[utf8]{inputenc}
 ---
 
 ```{r, include = FALSE}
@@ -134,4 +133,4 @@ RvMat %>% gather(method, value) %>%
 
 ```
 
-
+As you may see in the figure, implementation in ovltools are essentially the same as the implemted functions in other packages. It is worth to say that histogram based overlap estimation is the most closely estimate true CDF overlap except distribution fitting. However distribution fitting needs to a priori knowledge about the underlying distribution. Therefore, histogram based method is generally better than other methods. Kolomogrov-smirnov test statistic $D$ provide similar trends but since it calculates maximum distance between two CDFs, it did not match with true overlap between two CDFs. 
