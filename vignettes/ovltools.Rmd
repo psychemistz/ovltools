@@ -1,0 +1,137 @@
+---
+title: "ovltools"
+author: "Seongyong Park"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ovltools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+ovltools designed to provide some of functions that can calculate distribution overlap between two numeric vectors. It also provides significance testing based on permutation, to assess whether given sample distributions are drawn from the same distribution or not. Current version of ovltools provides KNN (K-Nearest Neighbor), KDE (Kernel Density Estimation), histogram, distribution fitting based overlap estimation methods. 
+
+# Deviation Example
+
+Suppose we have one standard normal distributions $\mathcal{N}(0,1)$ and series of standard normal distribution $\mathcal{N}(0+dx, 1)$. Here $dx$ ranges from $-5$ to $5$ by $0.01$. Thus, we have $1,000 + 1$ distributions in second case. Let's suppose we want to calculate overlap between first distribution and each of second distribution. The ovltools provides existing solutions of this problem in one package. 
+
+```{r deviation_exp, fig.align='center', fig.width=7.2, fig.height=4}
+library(ovltools)
+
+## Deviation Experiments
+distfit = histogram = kde = rv = ks = c()
+dx = seq(-5, 5, 0.05)
+for(i in 1:length(dx)){
+  x1 = rnorm(100)
+  x2 = rnorm(100, 0+dx[i])
+  tmp_rv = ovl_knn(x1, x2, k=5)
+  tmp_kde = ovl_kde(x1, x2)
+  tmp_hist = ovl_hist(x1, x2)
+  tmp_ks = 1-ks.test(x1,x2)$statistic
+  tmp_distfit = ovl_distfit(x1, x2, "norm")
+  rv = c(rv, tmp_rv)
+  kde = c(kde, tmp_kde)
+  histogram = c(histogram, tmp_hist)
+  distfit = c(distfit, tmp_distfit)
+  ks = c(ks, tmp_ks)
+}
+
+## Theoretical value of overlap based on CDF and PDF.
+cum_df = 2 * pnorm(-(abs(dx-0))/(2*1))
+prob_df = 2 * dnorm(-(abs(dx-0))/(2*1))
+
+## Visualize with ggplot
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+RvMat = data.frame(dx, prob_df, cum_df, rv, kde, histogram, distfit, ks)
+colnames(RvMat) = c("dx", "PDF", "CDF", "KNN", "KDE", "Hist", "DistFit", "KS")
+RvMat %>% tidyr::gather(method, value, -dx) %>%
+  mutate(method=factor(method, 
+                       levels=c("CDF", "PDF", "KS", "Hist", 
+                                "DistFit", "KDE", "KNN"))) %>%
+  ggplot2::ggplot(aes(x=dx, y=value, col=method)) +
+  geom_point() +
+  theme_bw() +
+  xlab("Deviation") +
+  ylab("value")
+
+```
+
+- CDF: Cumulative Distribution Function
+
+- PDF: Probability Distribution Function
+
+- KS: Kolomogrov-Smirnov Test Statistic
+
+- Hist: Histogram
+
+- DistFit: Distribution Fitting
+
+- KDE: Kernel Density Estimation
+
+- KNN: K-Nearest Neighbor
+
+
+
+# Random Sampling Example
+Now suppose we want to perform $N=1,000$ random sampling to estimate overlap between two distributions, $\mathcal{N}(0,1)$ and $\mathcal{N}(1,1)$. We can perform this experiment as previous with ovltools. Here I compared ovl_kde with existing package called overlapping and ovl_knn with Rvalue which is proposed in [computers, 2019](https://www.mdpi.com/2073-431X/8/2/42).
+
+```{r random_samp_exp, fig.align='center', fig.width=7.2, fig.height=4}
+library(ovltools)
+library(overlapping)
+
+## Deviation Experiments
+distfit = histogram = kde = kde_by_package = rv_from_src = ks = rv = c()
+for(i in 1:100){
+  x1 = rnorm(100)
+  x2 = rnorm(100, 1)
+  tmp_rv = ovl_knn(x1, x2, k=5)
+  tmp_kde = ovl_kde(x1, x2)
+  tmp_hist = ovl_hist(x1, x2)
+  tmp_distfit = ovl_distfit(x1, x2, "norm")
+  tmp_ks = 1-ks.test(x1,x2)$statistic
+  rv = c(rv, tmp_rv)
+  kde = c(kde, tmp_kde)
+  kde_by_package = c(kde_by_package, overlap(list(x1, x2))$OV)
+  rv_from_src = c(rv_from_src, Rvalue(c(x1,x2), c(rep(0,length(x1)), rep(1,length(x2)))))
+  histogram = c(histogram, tmp_hist)
+  distfit = c(distfit, tmp_distfit)
+  ks = c(ks, tmp_ks)
+}
+
+## Theoretical value of overlap based on CDF and PDF.
+cum_df = 2 * pnorm(-(abs(1-0))/(2*1))
+prob_df = 2 * dnorm(-(abs(1-0))/(2*1))
+
+## Visualize with ggplot
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+RvMat = data.frame(prob_df, cum_df, rv, rv_from_src, distfit, kde, kde_by_package, histogram, ks)
+colnames(RvMat) = c("PDF", "CDF", "KNN", "Rvalue", "DistFit", "KDE", "KDE_pkg", "Hist", "KS")
+RvMat %>% gather(method, value) %>% 
+  mutate(method=factor(method, 
+                       levels=c("CDF", "PDF", "KS", "Hist", "DistFit", 
+                                "KDE", "KDE_pkg", "KNN", "Rvalue"))) %>%
+  ggplot(aes(x=method, y=value, col=method)) +
+  geom_violin() +
+  geom_jitter(shape=16, position=position_jitter(0.2))+
+  theme_bw() +
+  xlab("methods") +
+  ylab("value")
+
+```
+
+

@@ -9,6 +9,7 @@
 #' x2 = rnorm(100, 1)
 #' ovl_kde(x1, x2, n=1024)
 #' @export
+#' @import dplyr
 #' @description
 #' Calculate distribution overlap by KDE (Kernel Density Estimation)
 #' This function compares two estimated distributions by KDE method.
@@ -34,10 +35,10 @@ ovl_kde <- function(x1, x2, n = 1024) {
     d_y1 <- get_density(x1, n = n, from = min_x, to = max_x)
     d_y2 <- get_density(x2, n = n, from = min_x, to = max_x)
 
-    OVL <- d_y1 %>% dplyr::mutate(y1 = y) %>% left_join(d_y2 %>% mutate(y2 = y), by = "x") %>%
-        dplyr::select(x, y1, y2) %>% group_by(x) %>%
-        summarise(OVL = min(y1, y2), OVA = max(y1, y2), .groups = "drop") %>% ungroup() %>%
-        summarise(total = sum(OVL) / sum(OVA), .groups = "drop") %>%
+    OVL <- d_y1 %>% dplyr::mutate(y1 = y) %>% dplyr::left_join(d_y2 %>% mutate(y2 = y), by = "x") %>%
+        dplyr::select(x, y1, y2) %>% dplyr::group_by(x) %>%
+        dplyr::summarise(OVL = min(y1, y2), OVA = max(y1, y2), .groups = "drop") %>% dplyr::ungroup() %>%
+        dplyr::summarise(total = sum(OVL) / sum(OVA), .groups = "drop") %>%
         unlist(use.names = FALSE)
 
     return(OVL)

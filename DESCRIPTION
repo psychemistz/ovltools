@@ -12,10 +12,13 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     FNN,
+    dplyr,
     fitdistrplus
 Suggests:
-    dplyr,
     tidyr,
     overlapping,
-    ggplot2
+    ggplot2,
+    knitr,
+    rmarkdown
 RoxygenNote: 7.1.1
+VignetteBuilder: knitr
