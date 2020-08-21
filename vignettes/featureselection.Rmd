@@ -1,0 +1,71 @@
+---
+title: "Feature selection"
+author: "Seongyong Park"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ovltools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+ovltools can be used to select relevant features in high dimensional dataset.
+
+```{r feat_select, fig.align='center', fig.width=7.2, fig.height=4}
+library(golubEsets)
+library(ovltools)
+data("Golub_Train")
+data("Golub_Test")
+
+## Prepare dataset
+gex_train = Golub_Train@assayData$exprs
+gex_test = Golub_Test@assayData$exprs
+label_train = Golub_Train@phenoData@data$ALL.AML
+label_test = Golub_Test@phenoData@data$ALL.AML
+
+train_dset = rbind(gex_train, label = label_train)
+train_dset = t(train_dset)
+train_dset = data.frame(train_dset)
+train_dset$label <- factor(train_dset$label)
+test_dset = rbind(gex_test, label = label_test)
+test_dset = t(test_dset)
+test_dset = data.frame(test_dset)
+test_dset$label <- factor(test_dset$label)
+
+train_dset[,1:(dim(train_dset)[2]-1)] = apply(train_dset[,1:(dim(train_dset)[2]-1)], 2, as.numeric)
+test_dset[,1:(dim(test_dset)[2]-1)] = apply(test_dset[,1:(dim(test_dset)[2]-1)], 2, as.numeric)
+
+
+## Get statistics
+statistic = c()
+for(i in 1:(dim(train_dset)[2]-1)){
+  tmp_ovl = ovl_distfit(train_dset[train_dset$label == 1,i], train_dset[train_dset$label == 2,i], "norm")
+  tmp_statistic = 1-tmp_ovl
+  statistic = c(statistic, tmp_statistic)
+}
+
+NOVL = data.frame(gid = colnames(train_dset)[1:length(colnames(train_dset))-1], novl = statistic)
+NOVL = NOVL[order(NOVL$novl, decreasing = T),]
+
+library(kableExtra)
+knitr::kable(NOVL[1:5,], align='c') %>%
+  kable_styling(full_width=F, position = "center")
+
+library(dplyr)
+library(ggplot2)
+NOVL %>% ggplot(aes(x=1:length(novl), y=novl)) + 
+  geom_point() + 
+  theme_bw() + 
+  xlab("Feature Ranking") + 
+  ylab("Non Overlapping Index (NOI)")
+
+```
+
