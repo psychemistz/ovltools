@@ -20,9 +20,18 @@ knitr::opts_chunk$set(
 
 ovltools designed to provide some of functions that can calculate distribution overlap between two numeric vectors. It also provides significance testing based on permutation, to assess whether given sample distributions are drawn from the same distribution or not. Current version of ovltools provides KNN (K-Nearest Neighbor), KDE (Kernel Density Estimation), histogram, distribution fitting based overlap estimation methods. 
 
+# Overlap between two distributions 
+
+Let $f_1(x;\theta_1)$ and $f_2(x;\theta_2)$ be the density functions for two populations from the same family of distributions. The overlap between two density functions is defined as follows.
+
+$$\Delta = \int \min[f_1(x;\theta_1), f_2(x;\theta_2)] dx$$
+The overlap $\Delta$ ranges between 0 and 1. 
+
+&nbsp;
+
 # Deviation Example
 
-Suppose we have one standard normal distributions $\mathcal{N}(0,1)$ and series of standard normal distribution $\mathcal{N}(0+dx, 1)$. Here $dx$ ranges from $-5$ to $5$ by $0.01$. Thus, we have $1,000 + 1$ distributions in second case. Let's suppose we want to calculate overlap between first distribution and each of second distribution. The ovltools provides existing solutions of this problem in one package. 
+Suppose we have one standard normal distributions $\mathcal{N}(0,1)$ and series of standard normal distribution $\mathcal{N}(0+dx, 1)$. Here $dx$ ranges from $-5$ to $5$ by $0.01$. Thus, we have $1,000 + 1$ distributions in second case. Let's suppose we want to calculate overlap between samples drawn from first distribution and samples drawn from each of second distribution. The ovltools provides existing solutions of this problem in one package. 
 
 ```{r deviation_exp, fig.align='center', fig.width=7.2, fig.height=4}
 library(ovltools)
@@ -46,19 +55,18 @@ for(i in 1:length(dx)){
 }
 
 ## Theoretical value of overlap based on CDF and PDF.
-cum_df = 2 * pnorm(-(abs(dx-0))/(2*1))
-prob_df = 2 * dnorm(-(abs(dx-0))/(2*1))
+OVL_Theory = 2 * pnorm(-(abs(dx-0))/(2*1))
 
 ## Visualize with ggplot
 library(dplyr)
 library(tidyr)
 library(ggplot2)
-RvMat = data.frame(dx, prob_df, cum_df, rv, kde, histogram, distfit, ks)
-colnames(RvMat) = c("dx", "PDF", "CDF", "KNN", "KDE", "Hist", "DistFit", "KS")
+RvMat = data.frame(dx, OVL_Theory, rv, kde, histogram, distfit, ks)
+colnames(RvMat) = c("dx", "Theory", "KNN", "KDE", "Hist", "DistFit", "KS")
 RvMat %>% tidyr::gather(method, value, -dx) %>%
   mutate(method=factor(method, 
-                       levels=c("CDF", "PDF", "KS", "Hist", 
-                                "DistFit", "KDE", "KNN"))) %>%
+                       levels=c("Theory", "DistFit", "Hist", 
+                                "KS", "KDE", "KNN"))) %>%
   ggplot2::ggplot(aes(x=dx, y=value, col=method)) +
   geom_point() +
   theme_bw() +
@@ -81,7 +89,7 @@ RvMat %>% tidyr::gather(method, value, -dx) %>%
 
 - KNN: K-Nearest Neighbor
 
-
+&nbsp;
 
 # Random Sampling Example
 Now suppose we want to perform $N=1,000$ random sampling to estimate overlap between two distributions, $\mathcal{N}(0,1)$ and $\mathcal{N}(1,1)$. We can perform this experiment as previous with ovltools. Here I compared ovl_kde with existing package called overlapping and ovl_knn with Rvalue which is proposed in [computers, 2019](https://www.mdpi.com/2073-431X/8/2/42).
@@ -109,20 +117,19 @@ for(i in 1:100){
   ks = c(ks, tmp_ks)
 }
 
-## Theoretical value of overlap based on CDF and PDF.
-cum_df = 2 * pnorm(-(abs(1-0))/(2*1))
-prob_df = 2 * dnorm(-(abs(1-0))/(2*1))
+## Theoretical value of overlap (For Standard Normal Distribution Case).
+OVL_Theory = 2 * pnorm(-(abs(1-0))/(2*1))
 
 ## Visualize with ggplot
 library(dplyr)
 library(tidyr)
 library(ggplot2)
 
-RvMat = data.frame(prob_df, cum_df, rv, rv_from_src, distfit, kde, kde_by_package, histogram, ks)
-colnames(RvMat) = c("PDF", "CDF", "KNN", "Rvalue", "DistFit", "KDE", "KDE_pkg", "Hist", "KS")
+RvMat = data.frame(OVL_Theory, rv, rv_from_src, distfit, kde, kde_by_package, histogram, ks)
+colnames(RvMat) = c("Theory", "KNN", "Rvalue", "DistFit", "KDE", "KDE_pkg", "Hist", "KS")
 RvMat %>% gather(method, value) %>% 
   mutate(method=factor(method, 
-                       levels=c("CDF", "PDF", "KS", "Hist", "DistFit", 
+                       levels=c("Theory", "DistFit", "Hist", "KS", 
                                 "KDE", "KDE_pkg", "KNN", "Rvalue"))) %>%
   ggplot(aes(x=method, y=value, col=method)) +
   geom_violin() +
@@ -133,4 +140,4 @@ RvMat %>% gather(method, value) %>%
 
 ```
 
-As you may see in the figure, implementation in ovltools are essentially the same as the implemted functions in other packages. It is worth to say that histogram based overlap estimation is the most closely estimate true CDF overlap except distribution fitting. However distribution fitting needs to a priori knowledge about the underlying distribution. Therefore, histogram based method is generally better than other methods. Kolomogrov-smirnov test statistic $D$ provide similar trends but since it calculates maximum distance between two CDFs, it did not match with true overlap between two CDFs. 
+As you may see in the figure, implementation in ovltools are essentially the same as the implemted functions in other packages. It is worth to say that histogram based overlap estimation is the most closely estimate true PDF overlap except distribution fitting. However distribution fitting needs to a priori knowledge about the underlying distribution. Therefore, histogram based method is generally better than other methods. Kolomogrov-smirnov test statistic $D$ provide similar trends but since it calculates maximum distance between two CDFs, it did not match with true overlap between two PDFs. 
