@@ -3,9 +3,5 @@ pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
   ovltools: ovltools.html
-<<<<<<< HEAD
-last_built: 2020-08-20T07:08Z
-=======
-last_built: 2020-08-20T07:38Z
->>>>>>> master
+last_built: 2020-08-21T04:38Z
 

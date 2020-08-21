@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ovltools • ovltools</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -13,6 +19,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="ovltools">
 <meta property="og:description" content="ovltools">
+<meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -66,7 +73,7 @@
       <h1 data-toc-skip>ovltools</h1>
                         <h4 class="author">Seongyong Park</h4>
             
-            <h4 class="date">2020-08-20</h4>
+            <h4 class="date">2020-08-21</h4>
       
       
       <div class="hidden name"><code>ovltools.Rmd</code></div>
@@ -80,10 +87,17 @@
 <a href="#introduction" class="anchor"></a>Introduction</h1>
 <p>ovltools designed to provide some of functions that can calculate distribution overlap between two numeric vectors. It also provides significance testing based on permutation, to assess whether given sample distributions are drawn from the same distribution or not. Current version of ovltools provides KNN (K-Nearest Neighbor), KDE (Kernel Density Estimation), histogram, distribution fitting based overlap estimation methods.</p>
 </div>
+<div id="overlap-between-two-distributions" class="section level1">
+<h1 class="hasAnchor">
+<a href="#overlap-between-two-distributions" class="anchor"></a>Overlap between two distributions</h1>
+<p>Let <span class="math inline">\(f_1(x;\theta_1)\)</span> and <span class="math inline">\(f_2(x;\theta_2)\)</span> be the density functions for two populations from the same family of distributions. The overlap between two density functions is defined as follows.</p>
+<p><span class="math display">\[\Delta = \int \min[f_1(x;\theta_1), f_2(x;\theta_2)] dx\]</span> The overlap <span class="math inline">\(\Delta\)</span> ranges between 0 and 1.</p>
+<p> </p>
+</div>
 <div id="deviation-example" class="section level1">
 <h1 class="hasAnchor">
 <a href="#deviation-example" class="anchor"></a>Deviation Example</h1>
-<p>Suppose we have one standard normal distributions <span class="math inline">\(\mathcal{N}(0,1)\)</span> and series of standard normal distribution <span class="math inline">\(\mathcal{N}(0+dx, 1)\)</span>. Here <span class="math inline">\(dx\)</span> ranges from <span class="math inline">\(-5\)</span> to <span class="math inline">\(5\)</span> by <span class="math inline">\(0.01\)</span>. Thus, we have <span class="math inline">\(1,000 + 1\)</span> distributions in second case. Let’s suppose we want to calculate overlap between first distribution and each of second distribution. The ovltools provides existing solutions of this problem in one package.</p>
+<p>Suppose we have one standard normal distributions <span class="math inline">\(\mathcal{N}(0,1)\)</span> and series of standard normal distribution <span class="math inline">\(\mathcal{N}(0+dx, 1)\)</span>. Here <span class="math inline">\(dx\)</span> ranges from <span class="math inline">\(-5\)</span> to <span class="math inline">\(5\)</span> by <span class="math inline">\(0.01\)</span>. Thus, we have <span class="math inline">\(1,000 + 1\)</span> distributions in second case. Let’s suppose we want to calculate overlap between samples drawn from first distribution and samples drawn from each of second distribution. The ovltools provides existing solutions of this problem in one package.</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ovltools</span>)
 
 <span class="co">## Deviation Experiments</span>
@@ -105,8 +119,7 @@
 }
 
 <span class="co">## Theoretical value of overlap based on CDF and PDF.</span>
-<span class="no">cum_df</span> <span class="kw">=</span> <span class="fl">2</span> * <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(-(<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(<span class="no">dx</span>-<span class="fl">0</span>))/(<span class="fl">2</span>*<span class="fl">1</span>))
-<span class="no">prob_df</span> <span class="kw">=</span> <span class="fl">2</span> * <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span>(-(<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(<span class="no">dx</span>-<span class="fl">0</span>))/(<span class="fl">2</span>*<span class="fl">1</span>))
+<span class="no">OVL_Theory</span> <span class="kw">=</span> <span class="fl">2</span> * <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(-(<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(<span class="no">dx</span>-<span class="fl">0</span>))/(<span class="fl">2</span>*<span class="fl">1</span>))
 
 <span class="co">## Visualize with ggplot</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
@@ -120,12 +133,12 @@
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyr</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
-<span class="no">RvMat</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">dx</span>, <span class="no">prob_df</span>, <span class="no">cum_df</span>, <span class="no">rv</span>, <span class="no">kde</span>, <span class="no">histogram</span>, <span class="no">distfit</span>, <span class="no">ks</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">RvMat</span>) <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"dx"</span>, <span class="st">"PDF"</span>, <span class="st">"CDF"</span>, <span class="st">"KNN"</span>, <span class="st">"KDE"</span>, <span class="st">"Hist"</span>, <span class="st">"DistFit"</span>, <span class="st">"KS"</span>)
+<span class="no">RvMat</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">dx</span>, <span class="no">OVL_Theory</span>, <span class="no">rv</span>, <span class="no">kde</span>, <span class="no">histogram</span>, <span class="no">distfit</span>, <span class="no">ks</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">RvMat</span>) <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"dx"</span>, <span class="st">"Theory"</span>, <span class="st">"KNN"</span>, <span class="st">"KDE"</span>, <span class="st">"Hist"</span>, <span class="st">"DistFit"</span>, <span class="st">"KS"</span>)
 <span class="no">RvMat</span> <span class="kw">%&gt;%</span> <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(<span class="no">method</span>, <span class="no">value</span>, -<span class="no">dx</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">method</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">method</span>,
-                       <span class="kw">levels</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CDF"</span>, <span class="st">"PDF"</span>, <span class="st">"KS"</span>, <span class="st">"Hist"</span>,
-                                <span class="st">"DistFit"</span>, <span class="st">"KDE"</span>, <span class="st">"KNN"</span>))) <span class="kw">%&gt;%</span>
+                       <span class="kw">levels</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Theory"</span>, <span class="st">"DistFit"</span>, <span class="st">"Hist"</span>,
+                                <span class="st">"KS"</span>, <span class="st">"KDE"</span>, <span class="st">"KNN"</span>))) <span class="kw">%&gt;%</span>
   <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">dx</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">value</span>, <span class="kw">col</span><span class="kw">=</span><span class="no">method</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() +
@@ -141,6 +154,7 @@
 <li><p>KDE: Kernel Density Estimation</p></li>
 <li><p>KNN: K-Nearest Neighbor</p></li>
 </ul>
+<p> </p>
 </div>
 <div id="random-sampling-example" class="section level1">
 <h1 class="hasAnchor">
@@ -177,20 +191,19 @@
   <span class="no">ks</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">ks</span>, <span class="no">tmp_ks</span>)
 }
 
-<span class="co">## Theoretical value of overlap based on CDF and PDF.</span>
-<span class="no">cum_df</span> <span class="kw">=</span> <span class="fl">2</span> * <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(-(<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(<span class="fl">1</span>-<span class="fl">0</span>))/(<span class="fl">2</span>*<span class="fl">1</span>))
-<span class="no">prob_df</span> <span class="kw">=</span> <span class="fl">2</span> * <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span>(-(<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(<span class="fl">1</span>-<span class="fl">0</span>))/(<span class="fl">2</span>*<span class="fl">1</span>))
+<span class="co">## Theoretical value of overlap (For Standard Normal Distribution Case).</span>
+<span class="no">OVL_Theory</span> <span class="kw">=</span> <span class="fl">2</span> * <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(-(<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(<span class="fl">1</span>-<span class="fl">0</span>))/(<span class="fl">2</span>*<span class="fl">1</span>))
 
 <span class="co">## Visualize with ggplot</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyr</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
 
-<span class="no">RvMat</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">prob_df</span>, <span class="no">cum_df</span>, <span class="no">rv</span>, <span class="no">rv_from_src</span>, <span class="no">distfit</span>, <span class="no">kde</span>, <span class="no">kde_by_package</span>, <span class="no">histogram</span>, <span class="no">ks</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">RvMat</span>) <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"PDF"</span>, <span class="st">"CDF"</span>, <span class="st">"KNN"</span>, <span class="st">"Rvalue"</span>, <span class="st">"DistFit"</span>, <span class="st">"KDE"</span>, <span class="st">"KDE_pkg"</span>, <span class="st">"Hist"</span>, <span class="st">"KS"</span>)
+<span class="no">RvMat</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">OVL_Theory</span>, <span class="no">rv</span>, <span class="no">rv_from_src</span>, <span class="no">distfit</span>, <span class="no">kde</span>, <span class="no">kde_by_package</span>, <span class="no">histogram</span>, <span class="no">ks</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">RvMat</span>) <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Theory"</span>, <span class="st">"KNN"</span>, <span class="st">"Rvalue"</span>, <span class="st">"DistFit"</span>, <span class="st">"KDE"</span>, <span class="st">"KDE_pkg"</span>, <span class="st">"Hist"</span>, <span class="st">"KS"</span>)
 <span class="no">RvMat</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(<span class="no">method</span>, <span class="no">value</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">method</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">method</span>,
-                       <span class="kw">levels</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CDF"</span>, <span class="st">"PDF"</span>, <span class="st">"KS"</span>, <span class="st">"Hist"</span>, <span class="st">"DistFit"</span>,
+                       <span class="kw">levels</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Theory"</span>, <span class="st">"DistFit"</span>, <span class="st">"Hist"</span>, <span class="st">"KS"</span>,
                                 <span class="st">"KDE"</span>, <span class="st">"KDE_pkg"</span>, <span class="st">"KNN"</span>, <span class="st">"Rvalue"</span>))) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">method</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">value</span>, <span class="kw">col</span><span class="kw">=</span><span class="no">method</span>)) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span>() +
@@ -199,7 +212,7 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"methods"</span>) +
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"value"</span>)</pre></body></html></div>
 <p><img src="ovltools_files/figure-html/random_samp_exp-1.png" width="691.2" style="display: block; margin: auto;"></p>
-<p>As you may see in the figure, implementation in ovltools are essentially the same as the implemted functions in other packages. It is worth to say that histogram based overlap estimation is the most closely estimate true CDF overlap except distribution fitting. However distribution fitting needs to a priori knowledge about the underlying distribution. Therefore, histogram based method is generally better than other methods. Kolomogrov-smirnov test statistic <span class="math inline">\(D\)</span> provide similar trends but since it calculates maximum distance between two CDFs, it did not match with true overlap between two CDFs.</p>
+<p>As you may see in the figure, implementation in ovltools are essentially the same as the implemted functions in other packages. It is worth to say that histogram based overlap estimation is the most closely estimate true PDF overlap except distribution fitting. However distribution fitting needs to a priori knowledge about the underlying distribution. Therefore, histogram based method is generally better than other methods. Kolomogrov-smirnov test statistic <span class="math inline">\(D\)</span> provide similar trends but since it calculates maximum distance between two CDFs, it did not match with true overlap between two PDFs.</p>
 </div>
   </div>
 
