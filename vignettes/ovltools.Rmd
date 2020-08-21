@@ -75,9 +75,8 @@ RvMat %>% tidyr::gather(method, value, -dx) %>%
 
 ```
 
-- CDF: Cumulative Distribution Function
 
-- PDF: Probability Distribution Function
+- Theory: Theoretical overlap value calculated by CDF 
 
 - KS: Kolomogrov-Smirnov Test Statistic
 
