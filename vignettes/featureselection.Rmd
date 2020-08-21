@@ -58,7 +58,6 @@ NOVL = NOVL[order(NOVL$novl, decreasing = T),]
 library(kableExtra)
 knitr::kable(NOVL[1:5,], align='c') %>%
   kable_styling(full_width=F, position = "center")
-
 library(dplyr)
 library(ggplot2)
 NOVL %>% ggplot(aes(x=1:length(novl), y=novl)) + 
@@ -67,5 +66,22 @@ NOVL %>% ggplot(aes(x=1:length(novl), y=novl)) +
   xlab("Feature Ranking") + 
   ylab("Non Overlapping Index (NOI)")
 
+```
+
+
+&nbsp;
+
+# Classification Performance
+
+```{r perf, fig.align='center', fig.width=7.2, fig.height=4}
+# select top 5 features
+model = glm(label ~ X95735_at+M55150_at+M16038_at+M23197_at+M57710_at, data=train_dset, family = 'binomial')
+cls = predict(model, test_dset, type="response")
+
+# confusion matrix
+table(test_dset$label, round(cls))
+
+# ACC 
+print(paste("ACC:", round((19+13)/34, 3)))
 ```
 
