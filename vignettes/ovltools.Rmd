@@ -75,7 +75,7 @@ RvMat %>% tidyr::gather(method, value, -dx) %>%
 
 ```
 
-- Theory: Theoretical overlap value calculated by CDF. 
+- Theory: Theoretical overlap value calculated by CDF
 
 - KS: Kolomogrov-Smirnov Test Statistic
 
