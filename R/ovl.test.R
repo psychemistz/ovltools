@@ -45,7 +45,7 @@ ovl.test <- function(x1, x2, method = c("hist", "distfit", "knn", "kde"), nperm=
       res[i] <- ovl_hist(bdat[bdat$cl==1,"x"], bdat[bdat$cl==0,"x"])
 
     } else if (method == "distfit"){
-      res[i] <- ovl_distfit(bdat[bdat$cl==1,"x"], bdat[bdat$cl==0,"x"])
+      res[i] <- ovl_distfit(bdat[bdat$cl==1,"x"], bdat[bdat$cl==0,"x"], "norm")
 
     } else {
       message("Please choose method within knn, kde, hist and distfit")
@@ -64,7 +64,7 @@ ovl.test <- function(x1, x2, method = c("hist", "distfit", "knn", "kde"), nperm=
     obs <- ovl_hist(dataset[dataset$cl==1,"x"], dataset[dataset$cl==0,"x"])
 
   } else if (method == "distfit"){
-    obs <- ovl_distfit(dataset[dataset$cl==1,"x"], dataset[dataset$cl==0,"x"])
+    obs <- ovl_distfit(dataset[dataset$cl==1,"x"], dataset[dataset$cl==0,"x"], "norm")
 
   } else {
     message("Please choose method within knn, kde, hist and distfit")
