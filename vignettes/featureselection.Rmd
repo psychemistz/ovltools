@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 # Introduction
-ovltools can be used to select relevant features in high dimensional dataset.
+ovltools can be used to select relevant features in high dimensional dataset. Here I provide a gentle introduction of feature selection with ovltools. [golubEsets](https://bioconductor.org/packages/release/data/experiment/html/golubEsets.html) package provides microarray datasets used in [Golub's paper](https://science.sciencemag.org/content/286/5439/531). The package already splitted train and test dataset so one can train and test machine learning model based on the "Golub_Train" dataset and test its performance with "Golub_Test" dataset. Due to the small number of samples, we recommend to use distribution fitting method for this dataset. We can select discriminative features of this dataset by ranking nonoverlapping of each gene between AML and CML classes. 
 
 ```{r feat_select, fig.align='center', fig.width=7.2, fig.height=4}
 library(golubEsets)
@@ -72,16 +72,48 @@ NOVL %>% ggplot(aes(x=1:length(novl), y=novl)) +
 &nbsp;
 
 # Classification Performance
-
+We can test the ranked variables are meaningful or not by comparing performance of classifier trained on the ranked variables and randomly selected variables. Here I used logistic regression as a testing method. 
 ```{r perf, fig.align='center', fig.width=7.2, fig.height=4}
-# select top 5 features
-model = glm(label ~ X95735_at+M55150_at+M16038_at+M23197_at+M57710_at, data=train_dset, family = 'binomial')
-cls = predict(model, test_dset, type="response")
+# select top n features
+nsamples = c(1:30)
+acc_all = list()
+for (i in 1:length(nsamples)){
+  ovl_var = sample(NOVL$gid, nsamples[i])
+  rand_var = sample(colnames(train_dset)[-1], nsamples[i])
+  outcome = "label"
 
-# confusion matrix
-table(test_dset$label, round(cls))
+  ovl_model = cv.glmnet(as.matrix(train_dset[,colnames(train_dset) %in% ovl_var]), alpha=0, 
+                       train_dset$label, family='binomial', type.measure="class")
+  ovl_pred = predict(ovl_model, newx = as.matrix(test_dset[,colnames(test_dset) %in% ovl_var]),
+                 s = "lambda.min", type='class')
+  
+  rand_model = cv.glmnet(as.matrix(train_dset[,colnames(train_dset) %in% rand_var]), alpha=0, 
+                       train_dset$label, family='binomial', type.measure="class")
+  rand_pred = predict(ovl_model, newx = as.matrix(test_dset[,colnames(test_dset) %in% rand_var]),
+                 s = "lambda.min", type='class')
+  
+  # confusion matrix
+  cm_ovl = table(test_dset$label, factor(ovl_pred, levels=c(0,1)))
+  cm_rand = table(test_dset$label, factor(rand_pred, levels=c(0,1)))
+  
+  # performance
+  acc_ovl = round((cm_ovl[1,1]+cm_ovl[2,2])/sum(cm_ovl), 3)
+  acc_rand = round((cm_rand[1,1]+cm_rand[2,2])/sum(cm_rand), 3)
+  
+  acc_all[[i]] = c(nsamples[i], acc_ovl, acc_rand)
+}
 
-# ACC 
-print(paste("ACC:", round((19+13)/34, 3)))
+acc_all = do.call(rbind, acc_all)
+colnames(acc_all) = c("nfeature", "acc_ovl", "acc_rand")
+acc_all = as.data.frame(acc_all)
+
+library(ggplot2)
+library(tidyr)
+acc_all %>% tidyr::gather(method, value, -nfeature)  %>% ggplot(aes(x=nfeature, y=value, col=method)) + 
+  ggplot2::geom_line() + 
+  theme_bw() + 
+  xlab("Number of Features") + 
+  ylab("Performance (ACC)")
+
 ```
 
