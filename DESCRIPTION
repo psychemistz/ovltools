@@ -13,7 +13,11 @@ LazyData: true
 Imports:
     FNN,
     dplyr,
-    fitdistrplus
+    fitdistrplus,
+    limma,
+    parallel,
+    doParallel,
+    VennDiagram
 Suggests:
     tidyr,
     overlapping,
