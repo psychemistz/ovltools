@@ -16,13 +16,16 @@ Imports:
     fitdistrplus,
     limma,
     parallel,
-    doParallel,
+    doParallel,    
     VennDiagram
 Suggests:
     tidyr,
     overlapping,
     ggplot2,
     knitr,
-    rmarkdown
+    rmarkdown,
+    golubEsets,
+    hu6800.db,
+    GSVA,
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
