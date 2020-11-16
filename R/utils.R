@@ -19,8 +19,10 @@ draw_venn <- function(x, cat.name, f.name){
     cols = c("blue", "red")
   } else if(length(x) == 3){
     cols = c("blue", "green", "red")
+  } else if(length(x) == 4){
+    cols = c("blue", "green", "red", "cyan")
   } else {
-    print("only pairwise and triple venn diagram are available")
+    print("input vecter should be <= 4")
   }
 
   venn.diagram(
