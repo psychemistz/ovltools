@@ -137,7 +137,7 @@ calculate how many labels are mismatch." />
 calculate how many labels are mismatch.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ovl_knn</span>(<span class='no'>x1</span>, <span class='no'>x2</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>5</span>)</pre>
+    <pre class="usage"><span class='fu'>ovl_knn</span><span class='op'>(</span><span class='va'>x1</span>, <span class='va'>x2</span>, k <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,11 +167,15 @@ Seongyong Park. You can find their implementation in their websites.
 (<a href='https://bitldku.github.io/home/sw/R-value.html'>Java</a>,
 <a href='https://bitldku.github.io/home/sw/AmRMR.html'>R</a>) Many thanks to the
 professor Sejong Oh (Dankook University, <a href='mailto:sejongoh@dankook.ac.kr'>sejongoh@dankook.ac.kr</a>) who kindly share his work.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Seongyong Park (2020-08-18)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>, <span class='fl'>0</span>)
-<span class='no'>x2</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>, <span class='fl'>1</span>)
-<span class='fu'>ovl_knn</span>(<span class='no'>x1</span>, <span class='no'>x2</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>5</span>)</div><div class='output co'>#&gt; [1] 0.369</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>x1</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>0</span><span class='op'>)</span>
+<span class='va'>x2</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>ovl_knn</span><span class='op'>(</span><span class='va'>x1</span>, <span class='va'>x2</span>, k<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.369</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -187,7 +191,7 @@ professor Sejong Oh (Dankook University, <a href='mailto:sejongoh@dankook.ac.kr'
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -72,7 +72,8 @@ NOVL %>% ggplot(aes(x=1:length(novl), y=novl)) +
 &nbsp;
 
 # Classification Performance
-We can test whether ranked variables are meaningful or not by comparing performance of classifier trained either on the ranked variables or randomly selected variables. Here I used logistic regression as a testing method. In $n=100$ times of random trial, I randomly selected 5 variables either from top $100$ ranked variables or all variables to see whether ranking has any value. 
+We can test whether ranked variables are meaningful or not by comparing performance of classifier trained either on the ranked variables or randomly selected variables. Here I used logistic regression as a testing method. In $n=100$ times of random trial, I randomly selected $5$ variables either from all variables or top $100$ ranked variables by ovltools.
+
 ```{r perf, fig.align='center', fig.width=7.2, fig.height=4}
 library(golubEsets)
 library(ovltools)
@@ -99,32 +100,35 @@ test_dset[,1:(dim(test_dset)[2]-1)] = apply(test_dset[,1:(dim(test_dset)[2]-1)],
 
 
 ## Get statistics
-statistic = c()
-for(i in 1:(dim(train_dset)[2]-1)){
-  tmp_ovl = ovl_distfit(train_dset[train_dset$label == 1,i], train_dset[train_dset$label == 2,i], "norm")
-  tmp_statistic = 1-tmp_ovl
-  statistic = c(statistic, tmp_statistic)
-}
+# res = c()
+# for(i in 1:(dim(train_dset)[2]-1)){
+#   if(i%%30==0) message(i)
+#   tmp_ovl = ovl.test(train_dset[train_dset$label == 1,i], train_dset[train_dset$label == 2,i], method="hist")
+#   res = rbind(res, tmp_ovl)
+# }
+# save(NOVL, file="../R/NOVL.RData")
+# NOVL = data.frame(gid = colnames(train_dset)[1:length(colnames(train_dset))-1], novl = 1-res[,1], pval=res[,2])
+load("../data/NOVL.RData")
 
-NOVL = data.frame(gid = colnames(train_dset)[1:length(colnames(train_dset))-1], novl = statistic)
-NOVL = NOVL[order(NOVL$novl, decreasing = T),]
-
-library(kableExtra)
-knitr::kable(NOVL[1:5,], align='c') %>%
-  kable_styling(full_width=F, position = "center")
 library(dplyr)
-library(ggplot2)
-NOVL %>% ggplot(aes(x=1:length(novl), y=novl)) + 
-  geom_point() + 
-  theme_bw() + 
-  xlab("Feature Ranking") + 
-  ylab("Non Overlapping Index (NOI)")
+NOVL_filt = NOVL %>% dplyr::filter(pval<0.05) %>% arrange(pval, desc(novl))
+
+# library(kableExtra)
+# knitr::kable(NOVL[1:5,], align='c') %>%
+#   kable_styling(full_width=F, position = "center")
+# library(dplyr)
+# library(ggplot2)
+# NOVL %>% ggplot(aes(x=1:length(novl), y=novl)) + 
+#   geom_point() + 
+#   theme_bw() + 
+#   xlab("Feature Ranking") + 
+#   ylab("Non Overlapping Index (NOI)")
 
 library(glmnet)
 # select top n features
 acc_all = list()
 for (i in 1:100){
-  ovl_var = sample(NOVL$gid[1:100], 5)
+  ovl_var = sample(NOVL_filt$gid[1:100], 5)
   rand_var = sample(colnames(train_dset)[-1], 5)
   outcome = "label"
 
@@ -139,8 +143,8 @@ for (i in 1:100){
                  s = "lambda.min", type='class')
   
   # confusion matrix
-  cm_ovl = table(test_dset$label, factor(ovl_pred, levels=c(0,1)))
-  cm_rand = table(test_dset$label, factor(rand_pred, levels=c(0,1)))
+  cm_ovl = table(test_dset$label, factor(ovl_pred, levels=c(1,2)))
+  cm_rand = table(test_dset$label, factor(rand_pred, levels=c(1,2)))
   
   # performance
   acc_ovl = round((cm_ovl[1,1]+cm_ovl[2,2])/sum(cm_ovl), 3)

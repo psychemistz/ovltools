@@ -79,13 +79,14 @@
 
       
 
-      </header><div class="row">
+      </header><script src="ovltools_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="ovltools_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="ovltools_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>ovltools</h1>
                         <h4 class="author">Seongyong Park</h4>
             
-            <h4 class="date">2020-08-22</h4>
+            <h4 class="date">2020-11-26</h4>
       
       
       <div class="hidden name"><code>ovltools.Rmd</code></div>
@@ -110,52 +111,52 @@
 <h1 class="hasAnchor">
 <a href="#deviation-example" class="anchor"></a>Deviation Example</h1>
 <p>Suppose we have one standard normal distributions <span class="math inline">\(\mathcal{N}(0,1)\)</span> and series of standard normal distribution <span class="math inline">\(\mathcal{N}(0+dx, 1)\)</span>. Here <span class="math inline">\(dx\)</span> ranges from <span class="math inline">\(-5\)</span> to <span class="math inline">\(5\)</span> by <span class="math inline">\(0.01\)</span>. Thus, we have <span class="math inline">\(1,000 + 1\)</span> distributions in second case. Let’s suppose we want to calculate overlap between samples drawn from first distribution and samples drawn from each of second distribution. The ovltools provides existing solutions of this problem in one package.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ovltools</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">ovltools</span><span class="op">)</span>
 
 <span class="co">## Deviation Experiments</span>
-<span class="no">distfit</span> <span class="kw">=</span> <span class="no">histogram</span> <span class="kw">=</span> <span class="no">kde</span> <span class="kw">=</span> <span class="no">rv</span> <span class="kw">=</span> <span class="no">ks</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>()
-<span class="no">dx</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(-<span class="fl">5</span>, <span class="fl">5</span>, <span class="fl">0.05</span>)
-<span class="kw">for</span>(<span class="no">i</span> <span class="kw">in</span> <span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">dx</span>)){
-  <span class="no">x1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">100</span>)
-  <span class="no">x2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">100</span>, <span class="fl">0</span>+<span class="no">dx</span>[<span class="no">i</span>])
-  <span class="no">tmp_rv</span> <span class="kw">=</span> <span class="fu"><a href="../reference/ovl_knn.html">ovl_knn</a></span>(<span class="no">x1</span>, <span class="no">x2</span>, <span class="kw">k</span><span class="kw">=</span><span class="fl">5</span>)
-  <span class="no">tmp_kde</span> <span class="kw">=</span> <span class="fu"><a href="../reference/ovl_kde.html">ovl_kde</a></span>(<span class="no">x1</span>, <span class="no">x2</span>)
-  <span class="no">tmp_hist</span> <span class="kw">=</span> <span class="fu"><a href="../reference/ovl_hist.html">ovl_hist</a></span>(<span class="no">x1</span>, <span class="no">x2</span>)
-  <span class="no">tmp_ks</span> <span class="kw">=</span> <span class="fl">1</span>-<span class="fu"><a href="https://rdrr.io/r/stats/ks.test.html">ks.test</a></span>(<span class="no">x1</span>,<span class="no">x2</span>)$<span class="no">statistic</span>
-  <span class="no">tmp_distfit</span> <span class="kw">=</span> <span class="fu"><a href="../reference/ovl_distfit.html">ovl_distfit</a></span>(<span class="no">x1</span>, <span class="no">x2</span>, <span class="st">"norm"</span>)
-  <span class="no">rv</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">rv</span>, <span class="no">tmp_rv</span>)
-  <span class="no">kde</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">kde</span>, <span class="no">tmp_kde</span>)
-  <span class="no">histogram</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">histogram</span>, <span class="no">tmp_hist</span>)
-  <span class="no">distfit</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">distfit</span>, <span class="no">tmp_distfit</span>)
-  <span class="no">ks</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">ks</span>, <span class="no">tmp_ks</span>)
-}
+<span class="va">distfit</span> <span class="op">=</span> <span class="va">histogram</span> <span class="op">=</span> <span class="va">kde</span> <span class="op">=</span> <span class="va">rv</span> <span class="op">=</span> <span class="va">ks</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">dx</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span>, <span class="fl">0.05</span><span class="op">)</span>
+<span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">dx</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+  <span class="va">x1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>
+  <span class="va">x2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span><span class="op">+</span><span class="va">dx</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>
+  <span class="va">tmp_rv</span> <span class="op">=</span> <span class="fu"><a href="../reference/ovl_knn.html">ovl_knn</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span>, k<span class="op">=</span><span class="fl">5</span><span class="op">)</span>
+  <span class="va">tmp_kde</span> <span class="op">=</span> <span class="fu"><a href="../reference/ovl_kde.html">ovl_kde</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span><span class="op">)</span>
+  <span class="va">tmp_hist</span> <span class="op">=</span> <span class="fu"><a href="../reference/ovl_hist.html">ovl_hist</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span><span class="op">)</span>
+  <span class="va">tmp_ks</span> <span class="op">=</span> <span class="fl">1</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/stats/ks.test.html">ks.test</a></span><span class="op">(</span><span class="va">x1</span>,<span class="va">x2</span><span class="op">)</span><span class="op">$</span><span class="va">statistic</span>
+  <span class="va">tmp_distfit</span> <span class="op">=</span> <span class="fu"><a href="../reference/ovl_distfit.html">ovl_distfit</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span>, <span class="st">"norm"</span><span class="op">)</span>
+  <span class="va">rv</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">rv</span>, <span class="va">tmp_rv</span><span class="op">)</span>
+  <span class="va">kde</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">kde</span>, <span class="va">tmp_kde</span><span class="op">)</span>
+  <span class="va">histogram</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">histogram</span>, <span class="va">tmp_hist</span><span class="op">)</span>
+  <span class="va">distfit</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">distfit</span>, <span class="va">tmp_distfit</span><span class="op">)</span>
+  <span class="va">ks</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">ks</span>, <span class="va">tmp_ks</span><span class="op">)</span>
+<span class="op">}</span>
 
 <span class="co">## Theoretical value of overlap based on CDF and PDF.</span>
-<span class="no">OVL_Theory</span> <span class="kw">=</span> <span class="fl">2</span> * <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(-(<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(<span class="no">dx</span>-<span class="fl">0</span>))/(<span class="fl">2</span>*<span class="fl">1</span>))
+<span class="va">OVL_Theory</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="op">-</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">dx</span><span class="op">-</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">## Visualize with ggplot</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; <eb>떎<ec>쓬<ec>쓽 <ed>뙣<ed>궎吏瑜<bc> 遺李⑺빀<eb>땲<eb>떎: 'dplyr'</eb></eb></bc></ed></ed></ec></ec></eb></span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
+<span class="co">#&gt; 戼㸴搼㸹挼㸰戼㹤挼㸰挼㸷 挼㸶搼㸰Ű挼㸱昼㸶戼㸸愼㸶 戼㹡挼㹥挼㸲昼㸸挼㸷մϴ搼㸹: 'dplyr'</span>NA<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     filter, lag</span>
 <span class="co">#&gt; The following objects are masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
-<span class="no">RvMat</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">dx</span>, <span class="no">OVL_Theory</span>, <span class="no">rv</span>, <span class="no">kde</span>, <span class="no">histogram</span>, <span class="no">distfit</span>, <span class="no">ks</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">RvMat</span>) <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"dx"</span>, <span class="st">"Theory"</span>, <span class="st">"KNN"</span>, <span class="st">"KDE"</span>, <span class="st">"Hist"</span>, <span class="st">"DistFit"</span>, <span class="st">"KS"</span>)
-<span class="no">RvMat</span> <span class="kw">%&gt;%</span> <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(<span class="no">method</span>, <span class="no">value</span>, -<span class="no">dx</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">method</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">method</span>,
-                       <span class="kw">levels</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Theory"</span>, <span class="st">"DistFit"</span>, <span class="st">"Hist"</span>,
-                                <span class="st">"KS"</span>, <span class="st">"KDE"</span>, <span class="st">"KNN"</span>))) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">dx</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">value</span>, <span class="kw">col</span><span class="kw">=</span><span class="no">method</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Deviation"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"value"</span>)</pre></body></html></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="va">RvMat</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">dx</span>, <span class="va">OVL_Theory</span>, <span class="va">rv</span>, <span class="va">kde</span>, <span class="va">histogram</span>, <span class="va">distfit</span>, <span class="va">ks</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">RvMat</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dx"</span>, <span class="st">"Theory"</span>, <span class="st">"KNN"</span>, <span class="st">"KDE"</span>, <span class="st">"Hist"</span>, <span class="st">"DistFit"</span>, <span class="st">"KS"</span><span class="op">)</span>
+<span class="va">RvMat</span> <span class="op">%&gt;%</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span><span class="va">method</span>, <span class="va">value</span>, <span class="op">-</span><span class="va">dx</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>method<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">method</span>, 
+                       levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Theory"</span>, <span class="st">"DistFit"</span>, <span class="st">"Hist"</span>, 
+                                <span class="st">"KS"</span>, <span class="st">"KDE"</span>, <span class="st">"KNN"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">dx</span>, y<span class="op">=</span><span class="va">value</span>, col<span class="op">=</span><span class="va">method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Deviation"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"value"</span><span class="op">)</span></code></pre></div>
 <p><img src="ovltools_files/figure-html/deviation_exp-1.png" width="691.2" style="display: block; margin: auto;"></p>
 <ul>
 <li><p>Theory: Theoretical overlap value calculated by CDF</p></li>
@@ -171,12 +172,11 @@
 <h1 class="hasAnchor">
 <a href="#random-sampling-example" class="anchor"></a>Random Sampling Example</h1>
 <p>Now suppose we want to perform <span class="math inline">\(N=1,000\)</span> random sampling to estimate overlap between two distributions, <span class="math inline">\(\mathcal{N}(0,1)\)</span> and <span class="math inline">\(\mathcal{N}(1,1)\)</span>. We can perform this experiment as previous with ovltools. Here I compared ovl_kde with existing package called overlapping and ovl_knn with Rvalue which is proposed in <a href="https://www.mdpi.com/2073-431X/8/2/42">computers, 2019</a>.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ovltools</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">overlapping</span>)
-<span class="co">#&gt; <ed>븘<ec>슂<ed>븳 <ed>뙣<ed>궎吏瑜<bc> 濡쒕뵫以묒엯<eb>땲<eb>떎: testthat</eb></eb></bc></ed></ed></ed></ec></ed></span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; <eb>떎<ec>쓬<ec>쓽 <ed>뙣<ed>궎吏瑜<bc> 遺李⑺빀<eb>땲<eb>떎: 'testthat'</eb></eb></bc></ed></ed></ec></ec></eb></span>
-<span class="co">#&gt; The following object is masked from 'package:tidyr':</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">ovltools</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">overlapping</span><span class="op">)</span>
+<span class="co">#&gt; 挼㸷ʿ攼㸴挼㸷搼㸱 挼㸶搼㸰Ű挼㸱昼㸶戼㸸愼㸶 戼㸷ε昼㸹挼㸱搼㹦挼㸰Դϴ搼㸹: testthat</span>NA<span class="co">#&gt; </span>
+<span class="co">#&gt; 戼㸴搼㸹挼㸰戼㹤挼㸰挼㸷 挼㸶搼㸰Ű挼㸱昼㸶戼㸸愼㸶 戼㹡挼㹥挼㸲昼㸸挼㸷մϴ搼㸹: 'testthat'</span>NA<span class="co">#&gt; The following object is masked from 'package:tidyr':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     matches</span>
 <span class="co">#&gt; The following object is masked from 'package:dplyr':</span>
@@ -184,44 +184,44 @@
 <span class="co">#&gt;     matches</span>
 
 <span class="co">## Deviation Experiments</span>
-<span class="no">distfit</span> <span class="kw">=</span> <span class="no">histogram</span> <span class="kw">=</span> <span class="no">kde</span> <span class="kw">=</span> <span class="no">kde_by_package</span> <span class="kw">=</span> <span class="no">rv_from_src</span> <span class="kw">=</span> <span class="no">ks</span> <span class="kw">=</span> <span class="no">rv</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>()
-<span class="kw">for</span>(<span class="no">i</span> <span class="kw">in</span> <span class="fl">1</span>:<span class="fl">100</span>){
-  <span class="no">x1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">100</span>)
-  <span class="no">x2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">100</span>, <span class="fl">1</span>)
-  <span class="no">tmp_rv</span> <span class="kw">=</span> <span class="fu"><a href="../reference/ovl_knn.html">ovl_knn</a></span>(<span class="no">x1</span>, <span class="no">x2</span>, <span class="kw">k</span><span class="kw">=</span><span class="fl">5</span>)
-  <span class="no">tmp_kde</span> <span class="kw">=</span> <span class="fu"><a href="../reference/ovl_kde.html">ovl_kde</a></span>(<span class="no">x1</span>, <span class="no">x2</span>)
-  <span class="no">tmp_hist</span> <span class="kw">=</span> <span class="fu"><a href="../reference/ovl_hist.html">ovl_hist</a></span>(<span class="no">x1</span>, <span class="no">x2</span>)
-  <span class="no">tmp_distfit</span> <span class="kw">=</span> <span class="fu"><a href="../reference/ovl_distfit.html">ovl_distfit</a></span>(<span class="no">x1</span>, <span class="no">x2</span>, <span class="st">"norm"</span>)
-  <span class="no">tmp_ks</span> <span class="kw">=</span> <span class="fl">1</span>-<span class="fu"><a href="https://rdrr.io/r/stats/ks.test.html">ks.test</a></span>(<span class="no">x1</span>,<span class="no">x2</span>)$<span class="no">statistic</span>
-  <span class="no">rv</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">rv</span>, <span class="no">tmp_rv</span>)
-  <span class="no">kde</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">kde</span>, <span class="no">tmp_kde</span>)
-  <span class="no">kde_by_package</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">kde_by_package</span>, <span class="fu"><a href="https://rdrr.io/pkg/overlapping/man/overlap.html">overlap</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="no">x1</span>, <span class="no">x2</span>))$<span class="no">OV</span>)
-  <span class="no">rv_from_src</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">rv_from_src</span>, <span class="fu"><a href="../reference/Rvalue.html">Rvalue</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">x1</span>,<span class="no">x2</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">x1</span>)), <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">x2</span>)))))
-  <span class="no">histogram</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">histogram</span>, <span class="no">tmp_hist</span>)
-  <span class="no">distfit</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">distfit</span>, <span class="no">tmp_distfit</span>)
-  <span class="no">ks</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">ks</span>, <span class="no">tmp_ks</span>)
-}
+<span class="va">distfit</span> <span class="op">=</span> <span class="va">histogram</span> <span class="op">=</span> <span class="va">kde</span> <span class="op">=</span> <span class="va">kde_by_package</span> <span class="op">=</span> <span class="va">rv_from_src</span> <span class="op">=</span> <span class="va">ks</span> <span class="op">=</span> <span class="va">rv</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span>
+<span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span><span class="op">{</span>
+  <span class="va">x1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>
+  <span class="va">x2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span>
+  <span class="va">tmp_rv</span> <span class="op">=</span> <span class="fu"><a href="../reference/ovl_knn.html">ovl_knn</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span>, k<span class="op">=</span><span class="fl">5</span><span class="op">)</span>
+  <span class="va">tmp_kde</span> <span class="op">=</span> <span class="fu"><a href="../reference/ovl_kde.html">ovl_kde</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span><span class="op">)</span>
+  <span class="va">tmp_hist</span> <span class="op">=</span> <span class="fu"><a href="../reference/ovl_hist.html">ovl_hist</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span><span class="op">)</span>
+  <span class="va">tmp_distfit</span> <span class="op">=</span> <span class="fu"><a href="../reference/ovl_distfit.html">ovl_distfit</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span>, <span class="st">"norm"</span><span class="op">)</span>
+  <span class="va">tmp_ks</span> <span class="op">=</span> <span class="fl">1</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/stats/ks.test.html">ks.test</a></span><span class="op">(</span><span class="va">x1</span>,<span class="va">x2</span><span class="op">)</span><span class="op">$</span><span class="va">statistic</span>
+  <span class="va">rv</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">rv</span>, <span class="va">tmp_rv</span><span class="op">)</span>
+  <span class="va">kde</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">kde</span>, <span class="va">tmp_kde</span><span class="op">)</span>
+  <span class="va">kde_by_package</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">kde_by_package</span>, <span class="fu"><a href="https://rdrr.io/pkg/overlapping/man/overlap.html">overlap</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">OV</span><span class="op">)</span>
+  <span class="va">rv_from_src</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">rv_from_src</span>, <span class="fu"><a href="../reference/Rvalue.html">Rvalue</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">x1</span>,<span class="va">x2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x1</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+  <span class="va">histogram</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">histogram</span>, <span class="va">tmp_hist</span><span class="op">)</span>
+  <span class="va">distfit</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">distfit</span>, <span class="va">tmp_distfit</span><span class="op">)</span>
+  <span class="va">ks</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">ks</span>, <span class="va">tmp_ks</span><span class="op">)</span>
+<span class="op">}</span>
 
 <span class="co">## Theoretical value of overlap (For Standard Normal Distribution Case).</span>
-<span class="no">OVL_Theory</span> <span class="kw">=</span> <span class="fl">2</span> * <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span>(-(<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(<span class="fl">1</span>-<span class="fl">0</span>))/(<span class="fl">2</span>*<span class="fl">1</span>))
+<span class="va">OVL_Theory</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="op">-</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">## Visualize with ggplot</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
-<span class="no">RvMat</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">OVL_Theory</span>, <span class="no">rv</span>, <span class="no">rv_from_src</span>, <span class="no">distfit</span>, <span class="no">kde</span>, <span class="no">kde_by_package</span>, <span class="no">histogram</span>, <span class="no">ks</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">RvMat</span>) <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Theory"</span>, <span class="st">"KNN"</span>, <span class="st">"Rvalue"</span>, <span class="st">"DistFit"</span>, <span class="st">"KDE"</span>, <span class="st">"KDE_pkg"</span>, <span class="st">"Hist"</span>, <span class="st">"KS"</span>)
-<span class="no">RvMat</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(<span class="no">method</span>, <span class="no">value</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">method</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">method</span>,
-                       <span class="kw">levels</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Theory"</span>, <span class="st">"DistFit"</span>, <span class="st">"Hist"</span>, <span class="st">"KS"</span>,
-                                <span class="st">"KDE"</span>, <span class="st">"KDE_pkg"</span>, <span class="st">"KNN"</span>, <span class="st">"Rvalue"</span>))) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">method</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">value</span>, <span class="kw">col</span><span class="kw">=</span><span class="no">method</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span>(<span class="kw">shape</span><span class="kw">=</span><span class="fl">16</span>, <span class="kw">position</span><span class="kw">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html">position_jitter</a></span>(<span class="fl">0.2</span>))+
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"methods"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"value"</span>)</pre></body></html></div>
+<span class="va">RvMat</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">OVL_Theory</span>, <span class="va">rv</span>, <span class="va">rv_from_src</span>, <span class="va">distfit</span>, <span class="va">kde</span>, <span class="va">kde_by_package</span>, <span class="va">histogram</span>, <span class="va">ks</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">RvMat</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Theory"</span>, <span class="st">"KNN"</span>, <span class="st">"Rvalue"</span>, <span class="st">"DistFit"</span>, <span class="st">"KDE"</span>, <span class="st">"KDE_pkg"</span>, <span class="st">"Hist"</span>, <span class="st">"KS"</span><span class="op">)</span>
+<span class="va">RvMat</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span><span class="va">method</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>method<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">method</span>, 
+                       levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Theory"</span>, <span class="st">"DistFit"</span>, <span class="st">"Hist"</span>, <span class="st">"KS"</span>, 
+                                <span class="st">"KDE"</span>, <span class="st">"KDE_pkg"</span>, <span class="st">"KNN"</span>, <span class="st">"Rvalue"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">method</span>, y<span class="op">=</span><span class="va">value</span>, col<span class="op">=</span><span class="va">method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_violin.html">geom_violin</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span>shape<span class="op">=</span><span class="fl">16</span>, position<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html">position_jitter</a></span><span class="op">(</span><span class="fl">0.2</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"methods"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"value"</span><span class="op">)</span></code></pre></div>
 <p><img src="ovltools_files/figure-html/random_samp_exp-1.png" width="691.2" style="display: block; margin: auto;"></p>
 <p>As you may see in the figure, implementation in ovltools are essentially the same as the implemted functions in other packages. It is worth to say that histogram based overlap estimation is the most closely estimate true PDF overlap except distribution fitting. However distribution fitting needs to a priori knowledge about the underlying distribution. Therefore, histogram based method is generally better than other methods. Kolomogrov-smirnov test statistic <span class="math inline">\(D\)</span> provide similar trends but since it calculates maximum distance between two CDFs, it did not match with true overlap between two PDFs.</p>
 </div>
@@ -242,7 +242,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

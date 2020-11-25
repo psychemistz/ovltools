@@ -26,6 +26,6 @@ Suggests:
     rmarkdown,
     golubEsets,
     hu6800.db,
-    GSVA,
+    GSVA
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
