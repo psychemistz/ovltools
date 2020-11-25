@@ -1,0 +1,166 @@
+---
+title: "Feature selection"
+author: "Seongyong Park"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ovltools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+ovltools can be used to select relevant features in high dimensional dataset. Here I provide a gentle introduction of feature selection with ovltools. [golubEsets](https://bioconductor.org/packages/release/data/experiment/html/golubEsets.html) package provides microarray datasets used in [Golub's paper](https://science.sciencemag.org/content/286/5439/531). The package already splitted train and test dataset so one can train and test machine learning model based on the "Golub_Train" dataset and test its performance with "Golub_Test" dataset. Due to the small number of samples, we recommend to use distribution fitting method for this dataset. We can select discriminative features of this dataset by ranking nonoverlapping of each gene between AML and CML classes. 
+
+```{r feat_select, fig.align='center', fig.width=7.2, fig.height=4}
+library(golubEsets)
+library(ovltools)
+data("Golub_Train")
+data("Golub_Test")
+
+## Prepare dataset
+gex_train = Golub_Train@assayData$exprs
+gex_test = Golub_Test@assayData$exprs
+label_train = Golub_Train@phenoData@data$ALL.AML
+label_test = Golub_Test@phenoData@data$ALL.AML
+
+train_dset = rbind(gex_train, label = label_train)
+train_dset = t(train_dset)
+train_dset = data.frame(train_dset)
+train_dset$label <- factor(train_dset$label)
+test_dset = rbind(gex_test, label = label_test)
+test_dset = t(test_dset)
+test_dset = data.frame(test_dset)
+test_dset$label <- factor(test_dset$label)
+
+train_dset[,1:(dim(train_dset)[2]-1)] = apply(train_dset[,1:(dim(train_dset)[2]-1)], 2, as.numeric)
+test_dset[,1:(dim(test_dset)[2]-1)] = apply(test_dset[,1:(dim(test_dset)[2]-1)], 2, as.numeric)
+
+
+## Get statistics
+statistic = c()
+for(i in 1:(dim(train_dset)[2]-1)){
+  tmp_ovl = ovl_distfit(train_dset[train_dset$label == 1,i], train_dset[train_dset$label == 2,i], "norm")
+  tmp_statistic = 1-tmp_ovl
+  statistic = c(statistic, tmp_statistic)
+}
+
+NOVL = data.frame(gid = colnames(train_dset)[1:length(colnames(train_dset))-1], novl = statistic)
+NOVL = NOVL[order(NOVL$novl, decreasing = T),]
+
+library(kableExtra)
+knitr::kable(NOVL[1:5,], align='c') %>%
+  kable_styling(full_width=F, position = "center")
+library(dplyr)
+library(ggplot2)
+NOVL %>% ggplot(aes(x=1:length(novl), y=novl)) + 
+  geom_point() + 
+  theme_bw() + 
+  xlab("Feature Ranking") + 
+  ylab("Non Overlapping Index (NOI)")
+
+```
+
+
+&nbsp;
+
+# Classification Performance
+We can test whether ranked variables are meaningful or not by comparing performance of classifier trained either on the ranked variables or randomly selected variables. Here I used logistic regression as a testing method. In $n=100$ times of random trial, I randomly selected 5 variables either from top $100$ ranked variables or all variables to see whether ranking has any value. 
+```{r perf, fig.align='center', fig.width=7.2, fig.height=4}
+library(golubEsets)
+library(ovltools)
+data("Golub_Train")
+data("Golub_Test")
+
+## Prepare dataset
+gex_train = Golub_Train@assayData$exprs
+gex_test = Golub_Test@assayData$exprs
+label_train = Golub_Train@phenoData@data$ALL.AML
+label_test = Golub_Test@phenoData@data$ALL.AML
+
+train_dset = rbind(gex_train, label = label_train)
+train_dset = t(train_dset)
+train_dset = data.frame(train_dset)
+train_dset$label <- factor(train_dset$label)
+test_dset = rbind(gex_test, label = label_test)
+test_dset = t(test_dset)
+test_dset = data.frame(test_dset)
+test_dset$label <- factor(test_dset$label)
+
+train_dset[,1:(dim(train_dset)[2]-1)] = apply(train_dset[,1:(dim(train_dset)[2]-1)], 2, as.numeric)
+test_dset[,1:(dim(test_dset)[2]-1)] = apply(test_dset[,1:(dim(test_dset)[2]-1)], 2, as.numeric)
+
+
+## Get statistics
+statistic = c()
+for(i in 1:(dim(train_dset)[2]-1)){
+  tmp_ovl = ovl_distfit(train_dset[train_dset$label == 1,i], train_dset[train_dset$label == 2,i], "norm")
+  tmp_statistic = 1-tmp_ovl
+  statistic = c(statistic, tmp_statistic)
+}
+
+NOVL = data.frame(gid = colnames(train_dset)[1:length(colnames(train_dset))-1], novl = statistic)
+NOVL = NOVL[order(NOVL$novl, decreasing = T),]
+
+library(kableExtra)
+knitr::kable(NOVL[1:5,], align='c') %>%
+  kable_styling(full_width=F, position = "center")
+library(dplyr)
+library(ggplot2)
+NOVL %>% ggplot(aes(x=1:length(novl), y=novl)) + 
+  geom_point() + 
+  theme_bw() + 
+  xlab("Feature Ranking") + 
+  ylab("Non Overlapping Index (NOI)")
+
+library(glmnet)
+# select top n features
+acc_all = list()
+for (i in 1:100){
+  ovl_var = sample(NOVL$gid[1:100], 5)
+  rand_var = sample(colnames(train_dset)[-1], 5)
+  outcome = "label"
+
+  ovl_model = cv.glmnet(as.matrix(train_dset[,colnames(train_dset) %in% ovl_var]), alpha=0, 
+                       train_dset$label, family='binomial', type.measure="class")
+  ovl_pred = predict(ovl_model, newx = as.matrix(test_dset[,colnames(test_dset) %in% ovl_var]),
+                 s = "lambda.min", type='class')
+  
+  rand_model = cv.glmnet(as.matrix(train_dset[,colnames(train_dset) %in% rand_var]), alpha=0, 
+                       train_dset$label, family='binomial', type.measure="class")
+  rand_pred = predict(ovl_model, newx = as.matrix(test_dset[,colnames(test_dset) %in% rand_var]),
+                 s = "lambda.min", type='class')
+  
+  # confusion matrix
+  cm_ovl = table(test_dset$label, factor(ovl_pred, levels=c(0,1)))
+  cm_rand = table(test_dset$label, factor(rand_pred, levels=c(0,1)))
+  
+  # performance
+  acc_ovl = round((cm_ovl[1,1]+cm_ovl[2,2])/sum(cm_ovl), 3)
+  acc_rand = round((cm_rand[1,1]+cm_rand[2,2])/sum(cm_rand), 3)
+  
+  acc_all[[i]] = c(i, acc_ovl, acc_rand)
+}
+
+acc_all = do.call(rbind, acc_all)
+colnames(acc_all) = c("ntrials", "acc_ovl", "acc_rand")
+acc_all = as.data.frame(acc_all)
+
+library(ggplot2)
+library(tidyr)
+acc_all %>% tidyr::gather(method, value, -ntrials)  %>% ggplot(aes(x=method, y=value)) + 
+  ggplot2::geom_violin() + 
+  ggplot2::geom_boxplot() + 
+  theme_bw() + 
+  xlab("Methods") + 
+  ylab("Performance (ACC)")
+
+```
+
