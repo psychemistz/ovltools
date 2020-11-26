@@ -25,7 +25,7 @@ draw_venn <- function(x, cat.name, f.name){
     print("input vecter should be <= 4")
   }
 
-  venn.diagram::venn.diagram(
+  VennDiagram::venn.diagram(
     x = x,
     category.names = cat.name,
     col = "transparent",
