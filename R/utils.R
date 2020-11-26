@@ -25,7 +25,7 @@ draw_venn <- function(x, cat.name, f.name){
     print("input vecter should be <= 4")
   }
 
-  venn.diagram(
+  venn.diagram::venn.diagram(
     x = x,
     category.names = cat.name,
     col = "transparent",
@@ -56,12 +56,12 @@ draw_venn <- function(x, cat.name, f.name){
 limma_deg <- function(gex, label){
   design = model.matrix(~0+label)
   colnames(design) = levels(label)
-  fit <- lmFit(gex, design)
+  fit <- limma::lmFit(gex, design)
   contrast <- paste(levels(label)[2], levels(label)[1], sep = "-")
-  contrast.matrix <- makeContrasts(contrasts = contrast, levels = design)
-  fitE <- contrasts.fit(fit, contrast.matrix)
-  fitE <- eBayes(fitE)
-  tT <- topTable(fitE, adjust = "BH", sort.by = "B", number = Inf)
+  contrast.matrix <- limma::makeContrasts(contrasts = contrast, levels = design)
+  fitE <- limma::contrasts.fit(fit, contrast.matrix)
+  fitE <- limma::eBayes(fitE)
+  tT <- limma::topTable(fitE, adjust = "BH", sort.by = "B", number = Inf)
 
   return(tT)
 }
