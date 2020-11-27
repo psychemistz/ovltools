@@ -22,7 +22,7 @@ gex = do.call(rbind, lapply(1:100, function(i) rnorm(100, sample(1:10), 2)))
 rownames(gex) = paste0("gid", 1:100)
 colnames(gex) = paste0("sid", 1:100)
 label = factor(c(rep("ALL", 50), rep("AML", 50)), levels=c("ALL", "AML"))
-limma_deg(gex, label)
+head(limma_deg(gex, label))
 }
 \author{
 Seongyong Park (2020-08-18)

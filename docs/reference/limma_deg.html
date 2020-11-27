@@ -106,6 +106,12 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/dagsanalysis.html">Differentially Active Gene Set Analysis</a>
+    </li>
+    <li>
+      <a href="../articles/deganalysis.html">Differential Gene Expression Analysis</a>
+    </li>
+    <li>
       <a href="../articles/featureselection.html">Feature selection</a>
     </li>
   </ul>
@@ -162,8 +168,14 @@
 <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>gex</span><span class='op'>)</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"gid"</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>gex</span><span class='op'>)</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"sid"</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>)</span>
 <span class='va'>label</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"ALL"</span>, <span class='fl'>50</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"AML"</span>, <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>, levels<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ALL"</span>, <span class='st'>"AML"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>limma_deg</span><span class='op'>(</span><span class='va'>gex</span>, <span class='va'>label</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in lmFit(gex, design): 함수 "lmFit"를 찾을 수 없습니다</span></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>limma_deg</span><span class='op'>(</span><span class='va'>gex</span>, <span class='va'>label</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;            logFC  AveExpr         t   P.Value adj.P.Val         B
+#&gt; gid34  0.8193437 5.657343  1.175512 0.2398186 0.9991119 -4.591372
+#&gt; gid48 -0.7666263 5.870307 -1.099878 0.2714122 0.9991119 -4.593108
+#&gt; gid12 -0.7661176 5.466124 -1.099148 0.2717304 0.9991119 -4.593124
+#&gt; gid14 -0.7638359 5.772627 -1.095875 0.2731605 0.9991119 -4.593197
+#&gt; gid58 -0.7562948 5.877817 -1.085055 0.2779238 0.9991119 -4.593435
+#&gt; gid90  0.7189914 5.168472  1.031536 0.3023148 0.9991119 -4.594577</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

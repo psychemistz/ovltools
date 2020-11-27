@@ -1,15 +1,19 @@
 ---
-title: "dagsanalysis"
+title: "Differentially Active Gene Set Analysis"
 author: "Seongyong_Park"
-date: '2020 11 26 '
-output: html_document
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Differentially Active Gene Set Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Differentially Active Gene Set Analysis
+## Differentially Active Gene Set Analysis with conventional methods
 
 We often find differentially active gene sets in microarray dataset using some of well known methods. We can also apply overlap statistics for this purpose. Here I compared ovltools with GSVA, ssGSEA, and PLAGE. 
 
@@ -46,6 +50,8 @@ gex_test = gex_test %>% dplyr::select(-Entrez)
 
 ## Conventional Gene Set Activity Analysis
 # Gene set activity calculation
+library(GSVAdata)
+library(ovltools)
 data(c2BroadSets)
 gs = lapply(c2BroadSets@.Data, function(x) x@geneIds)
 gs_names = do.call(c, lapply(c2BroadSets@.Data, function(x) x@setName))
@@ -96,24 +102,26 @@ plage_all_gs = union(plage_train_gs, plage_test_gs)
 
 ```
 
-## Differentially Active Gene Set Analysis
+## Differentially Active Gene Set Analysis with ovltools 
 
-```{r with_ovltools, echo=FALSE}
+```{r with_ovltools}
 
 ## GSA based on ovl.test, Train case
-min.sz=3
-res = list()
-for(i in 1:length(gs)){
-  if (i %% 30 == 0) message(paste(i,"/",length(gs)))
-  tmp_dt = gex_train[rownames(gex_train) %in% gs[[i]],]
-
-  if(dim(tmp_dt)[1] < min.sz) next
-  tmp_dt = t(tmp_dt)
-  pc = prcomp(tmp_dt, center=T, scale.=T)
-  pc_vec = tmp_dt %*% pc$rotation[,1]
-  tmp_res = ovltools::ovl.test(pc_vec[label_train==levels(label_train)[1]], pc_vec[label_train==levels(label_train)[2]], method = 'hist')
-  res[[i]] = c(gs_name = names(gs)[[i]], tmp_res)
-}
+# min.sz=3
+# res = list()
+# for(i in 1:length(gs)){
+#   if (i %% 30 == 0) message(paste(i,"/",length(gs)))
+#   tmp_dt = gex_train[rownames(gex_train) %in% gs[[i]],]
+# 
+#   if(dim(tmp_dt)[1] < min.sz) next
+#   tmp_dt = t(tmp_dt)
+#   pc = prcomp(tmp_dt, center=T, scale.=T)
+#   pc_vec = tmp_dt %*% pc$rotation[,1]
+#   tmp_res = ovltools::ovl.test(pc_vec[label_train==levels(label_train)[1]], pc_vec[label_train==levels(label_train)[2]], method = 'hist')
+#   res[[i]] = c(gs_name = names(gs)[[i]], tmp_res)
+# }
+# save(res, file="../data/ovl_dags_train_res_ovl_pca.RData")
+load("../data/ovl_dags_train_res_ovl_pca.RData")
 
 ovl_train_res = do.call(rbind, res)
 ovl_train_res = data.frame(ovl_train_res)
@@ -122,20 +130,22 @@ ovl_train_gs = ovl_train_res$gs_name[ovl_train_res$pval<0.05]
 
 
 ## GSA based on ovl.test, Test case
-min.sz=3
-res = list()
-for(i in 1:length(gs)){
-  if (i %% 30 == 0) message(paste(i,"/",length(gs)))
-  tmp_dt = gex_test[rownames(gex_test) %in% gs[[i]],]
-
-  if(dim(tmp_dt)[1] < min.sz) next
-
-  tmp_dt = t(tmp_dt)
-  pc = prcomp(tmp_dt, center=T, scale.=T)
-  pc_vec = tmp_dt %*% pc$rotation[,1]
-  tmp_res = ovltools::ovl.test(pc_vec[label_test==levels(label_test)[1]], pc_vec[label_test==levels(label_test)[2]], method = 'hist')
-  res[[i]] = c(gs_name = names(gs)[[i]], tmp_res)
-}
+# min.sz=3
+# res = list()
+# for(i in 1:length(gs)){
+#   if (i %% 30 == 0) message(paste(i,"/",length(gs)))
+#   tmp_dt = gex_test[rownames(gex_test) %in% gs[[i]],]
+# 
+#   if(dim(tmp_dt)[1] < min.sz) next
+# 
+#   tmp_dt = t(tmp_dt)
+#   pc = prcomp(tmp_dt, center=T, scale.=T)
+#   pc_vec = tmp_dt %*% pc$rotation[,1]
+#   tmp_res = ovltools::ovl.test(pc_vec[label_test==levels(label_test)[1]], pc_vec[label_test==levels(label_test)[2]], method = 'hist')
+#   res[[i]] = c(gs_name = names(gs)[[i]], tmp_res)
+# }
+# save(res, file="../data/ovl_dags_test_res_ovl_pca.RData")
+load("../data/ovl_dags_test_res_ovl_pca.RData")
 
 ovl_test_res = do.call(rbind, res)
 ovl_test_res = data.frame(ovl_test_res)
@@ -148,26 +158,44 @@ ovl_all_gs = union(ovl_train_gs, ovl_test_gs)
 ## Draw Venn diagram
 
 ```{r venn}
-suppressPackageStartupMessages(library(VennDiagram))
-draw_venn(list(gsva_train_gs, gsva_test_gs), cat.name=c("gsva_train", "gsva_test"), f.name="./fig/golub_dags_gsva_VennDiagram.png")
-draw_venn(list(ss_train_gs, ss_test_gs), cat.name=c("ssGSEA_train", "ssGSEA_test"), f.name="./fig/golub_dags_ssgsea_VennDiagram.png")
-draw_venn(list(plage_train_gs, plage_test_gs), cat.name=c("plage_train", "plage_test"), f.name="./fig/golub_dags_plage_VennDiagram.png")
-draw_venn(list(ovl_train_gs, ovl_test_gs), cat.name=c("ovl_train", "ovl_test"), f.name="./fig/golub_dags_ovltools_VennDiagram.png")
+# suppressPackageStartupMessages(library(VennDiagram))
+# draw_venn(list(gsva_train_gs, gsva_test_gs), cat.name=c("gsva_train", "gsva_test"), f.name="../fig/golub_dags_gsva_VennDiagram.png")
+# draw_venn(list(ss_train_gs, ss_test_gs), cat.name=c("ssGSEA_train", "ssGSEA_test"), f.name="../fig/golub_dags_ssgsea_VennDiagram.png")
+# draw_venn(list(plage_train_gs, plage_test_gs), cat.name=c("plage_train", "plage_test"), f.name="../fig/golub_dags_plage_VennDiagram.png")
+# draw_venn(list(ovl_train_gs, ovl_test_gs), cat.name=c("ovl_train", "ovl_test"), f.name="../fig/golub_dags_ovltools_VennDiagram.png")
+# 
+# draw_venn(list(gsva_train_gs, ss_train_gs, plage_train_gs, ovl_train_gs),
+#           cat.name=c("GSVA", "ssGSEA", "PLAGE", "ovltools"), f.name="../fig/golub_train_dags_VennDiagram.png")
+# 
+# draw_venn(list(gsva_test_gs, ss_test_gs, plage_test_gs, ovl_test_gs),
+#           cat.name=c("GSVA", "ssGSEA", "PLAGE", "ovltools"), f.name="../fig/golub_test_dags_VennDiagram.png")
+# 
+# draw_venn(list(gsva_common_gs, ss_common_gs, plage_common_gs, ovl_common_gs),
+#           cat.name=c("GSVA", "ssGSEA", "PLAGE", "ovltools"), f.name="../fig/golub_common_dags_VennDiagram.png")
+# 
+# draw_venn(list(gsva_all_gs, ss_all_gs, plage_all_gs, ovl_all_gs),
+#           cat.name=c("GSVA", "ssGSEA", "PLAGE", "ovltools"), f.name="../fig/golub_all_dags_VennDiagram.png")
 
-draw_venn(list(gsva_train_gs, ss_train_gs, plage_train_gs, ovl_train_gs),
-          cat.name=c("GSVA", "ssGSEA", "PLAGE", "ovltools"), f.name="./fig/golub_train_dags_VennDiagram.png")
 
-draw_venn(list(gsva_test_gs, ss_test_gs, plage_test_gs, ovl_test_gs),
-          cat.name=c("GSVA", "ssGSEA", "PLAGE", "ovltools"), f.name="./fig/golub_test_dags_VennDiagram.png")
-
-draw_venn(list(gsva_common_gs, ss_common_gs, plage_common_gs, ovl_common_gs),
-          cat.name=c("GSVA", "ssGSEA", "PLAGE", "ovltools"), f.name="./fig/golub_common_dags_VennDiagram.png")
-
-draw_venn(list(gsva_all_gs, ss_all_gs, plage_all_gs, ovl_all_gs),
-          cat.name=c("GSVA", "ssGSEA", "PLAGE", "ovltools"), f.name="./fig/golub_all_dags_VennDiagram.png")
-
-
-
-ovl_test_res %>% filter(gs_name %in% commonset) %>% arrange(desc(OVL))
+# ovl_test_res %>% filter(gs_name %in% commonset) %>% arrange(desc(OVL))
 ```
 
+### Methods
+
+- **GSVA**: ![GSVA](../fig/golub_dags_gsva_VennDiagram.png){width=50%}
+
+- **ssGSEA**: ![ssGSEA](../fig/golub_dags_ssgsea_VennDiagram.png){width=50%}
+
+- **PLAGE**: ![PLAGE](../fig/golub_dags_plage_VennDiagram.png){width=50%}
+
+- **ovltools**: ![ovltools](../fig/golub_dags_ovltools_VennDiagram.png){width=50%}
+
+### Datasets
+
+- **Train**: ![Train](../fig/golub_train_dags_VennDiagram.png){width=50%}
+
+- **Test**: ![Test](../fig/golub_test_dags_VennDiagram.png){width=50%}
+
+- **Common**: ![Common](../fig/golub_common_dags_VennDiagram.png){width=50%}
+
+- **All**: ![All](../fig/golub_all_dags_VennDiagram.png){width=50%}
