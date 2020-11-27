@@ -49,7 +49,7 @@ draw_venn <- function(x, cat.name, f.name){
 #' rownames(gex) = paste0("gid", 1:100)
 #' colnames(gex) = paste0("sid", 1:100)
 #' label = factor(c(rep("ALL", 50), rep("AML", 50)), levels=c("ALL", "AML"))
-#' limma_deg(gex, label)
+#' head(limma_deg(gex, label))
 #' @import limma
 #' @export
 #' @description

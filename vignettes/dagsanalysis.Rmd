@@ -104,7 +104,7 @@ plage_all_gs = union(plage_train_gs, plage_test_gs)
 
 ## Differentially Active Gene Set Analysis with ovltools 
 
-```{r with_ovltools, echo=FALSE}
+```{r with_ovltools}
 
 ## GSA based on ovl.test, Train case
 # min.sz=3
@@ -182,20 +182,20 @@ ovl_all_gs = union(ovl_train_gs, ovl_test_gs)
 
 ### Methods
 
-**GSVA**: ![GSVA](../fig/golub_dags_gsva_VennDiagram.png){width=50%}
+- **GSVA**: ![GSVA](../fig/golub_dags_gsva_VennDiagram.png){width=50%}
 
-**ssGSEA**: ![ssGSEA](../fig/golub_dags_ssgsea_VennDiagram.png){width=50%}
+- **ssGSEA**: ![ssGSEA](../fig/golub_dags_ssgsea_VennDiagram.png){width=50%}
 
-**PLAGE**: ![PLAGE](../fig/golub_dags_plage_VennDiagram.png){width=50%}
+- **PLAGE**: ![PLAGE](../fig/golub_dags_plage_VennDiagram.png){width=50%}
 
-**ovltools**: ![ovltools](../fig/golub_dags_ovltools_VennDiagram.png){width=50%}
+- **ovltools**: ![ovltools](../fig/golub_dags_ovltools_VennDiagram.png){width=50%}
 
 ### Datasets
 
-**Train**: ![Train](../fig/golub_train_dags_VennDiagram.png){width=50%}
+- **Train**: ![Train](../fig/golub_train_dags_VennDiagram.png){width=50%}
 
-**Test**: ![Test](../fig/golub_test_dags_VennDiagram.png){width=50%}
+- **Test**: ![Test](../fig/golub_test_dags_VennDiagram.png){width=50%}
 
-**Common**: ![Common](../fig/golub_common_dags_VennDiagram.png){width=50%}
+- **Common**: ![Common](../fig/golub_common_dags_VennDiagram.png){width=50%}
 
-**All**: ![All](../fig/golub_all_dags_VennDiagram.png){width=50%}
+- **All**: ![All](../fig/golub_all_dags_VennDiagram.png){width=50%}

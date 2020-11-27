@@ -203,11 +203,59 @@
 <div id="differentially-active-gene-set-analysis-with-ovltools" class="section level2">
 <h2 class="hasAnchor">
 <a href="#differentially-active-gene-set-analysis-with-ovltools" class="anchor"></a>Differentially Active Gene Set Analysis with ovltools</h2>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## GSA based on ovl.test, Train case</span>
+<span class="co"># min.sz=3</span>
+<span class="co"># res = list()</span>
+<span class="co"># for(i in 1:length(gs)){</span>
+<span class="co">#   if (i %% 30 == 0) message(paste(i,"/",length(gs)))</span>
+<span class="co">#   tmp_dt = gex_train[rownames(gex_train) %in% gs[[i]],]</span>
+<span class="co"># </span>
+<span class="co">#   if(dim(tmp_dt)[1] &lt; min.sz) next</span>
+<span class="co">#   tmp_dt = t(tmp_dt)</span>
+<span class="co">#   pc = prcomp(tmp_dt, center=T, scale.=T)</span>
+<span class="co">#   pc_vec = tmp_dt %*% pc$rotation[,1]</span>
+<span class="co">#   tmp_res = ovltools::ovl.test(pc_vec[label_train==levels(label_train)[1]], pc_vec[label_train==levels(label_train)[2]], method = 'hist')</span>
+<span class="co">#   res[[i]] = c(gs_name = names(gs)[[i]], tmp_res)</span>
+<span class="co"># }</span>
+<span class="co"># save(res, file="../data/ovl_dags_train_res_ovl_pca.RData")</span>
+<span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"../data/ovl_dags_train_res_ovl_pca.RData"</span><span class="op">)</span>
+
+<span class="va">ovl_train_res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">res</span><span class="op">)</span>
+<span class="va">ovl_train_res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">ovl_train_res</span><span class="op">)</span>
+<span class="va">ovl_train_res</span> <span class="op">=</span> <span class="va">ovl_train_res</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">pval</span><span class="op">)</span>
+<span class="va">ovl_train_gs</span> <span class="op">=</span> <span class="va">ovl_train_res</span><span class="op">$</span><span class="va">gs_name</span><span class="op">[</span><span class="va">ovl_train_res</span><span class="op">$</span><span class="va">pval</span><span class="op">&lt;</span><span class="fl">0.05</span><span class="op">]</span>
+
+
+<span class="co">## GSA based on ovl.test, Test case</span>
+<span class="co"># min.sz=3</span>
+<span class="co"># res = list()</span>
+<span class="co"># for(i in 1:length(gs)){</span>
+<span class="co">#   if (i %% 30 == 0) message(paste(i,"/",length(gs)))</span>
+<span class="co">#   tmp_dt = gex_test[rownames(gex_test) %in% gs[[i]],]</span>
+<span class="co"># </span>
+<span class="co">#   if(dim(tmp_dt)[1] &lt; min.sz) next</span>
+<span class="co"># </span>
+<span class="co">#   tmp_dt = t(tmp_dt)</span>
+<span class="co">#   pc = prcomp(tmp_dt, center=T, scale.=T)</span>
+<span class="co">#   pc_vec = tmp_dt %*% pc$rotation[,1]</span>
+<span class="co">#   tmp_res = ovltools::ovl.test(pc_vec[label_test==levels(label_test)[1]], pc_vec[label_test==levels(label_test)[2]], method = 'hist')</span>
+<span class="co">#   res[[i]] = c(gs_name = names(gs)[[i]], tmp_res)</span>
+<span class="co"># }</span>
+<span class="co"># save(res, file="../data/ovl_dags_test_res_ovl_pca.RData")</span>
+<span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"../data/ovl_dags_test_res_ovl_pca.RData"</span><span class="op">)</span>
+
+<span class="va">ovl_test_res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="va">rbind</span>, <span class="va">res</span><span class="op">)</span>
+<span class="va">ovl_test_res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">ovl_test_res</span><span class="op">)</span>
+<span class="va">ovl_test_res</span> <span class="op">=</span> <span class="va">ovl_test_res</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">pval</span><span class="op">)</span>
+<span class="va">ovl_test_gs</span> <span class="op">=</span> <span class="va">ovl_test_res</span><span class="op">$</span><span class="va">gs_name</span><span class="op">[</span><span class="va">ovl_test_res</span><span class="op">$</span><span class="va">pval</span><span class="op">&lt;</span><span class="fl">0.05</span><span class="op">]</span>
+<span class="va">ovl_common_gs</span> <span class="op">=</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">intersect</a></span><span class="op">(</span><span class="va">ovl_train_gs</span>, <span class="va">ovl_test_gs</span><span class="op">)</span>
+<span class="va">ovl_all_gs</span> <span class="op">=</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">union</a></span><span class="op">(</span><span class="va">ovl_train_gs</span>, <span class="va">ovl_test_gs</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="draw-venn-diagram" class="section level2">
 <h2 class="hasAnchor">
 <a href="#draw-venn-diagram" class="anchor"></a>Draw Venn diagram</h2>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># suppressPackageStartupMessages(library(VennDiagram))</span>
 <span class="co"># draw_venn(list(gsva_train_gs, gsva_test_gs), cat.name=c("gsva_train", "gsva_test"), f.name="../fig/golub_dags_gsva_VennDiagram.png")</span>
 <span class="co"># draw_venn(list(ss_train_gs, ss_test_gs), cat.name=c("ssGSEA_train", "ssGSEA_test"), f.name="../fig/golub_dags_ssgsea_VennDiagram.png")</span>
@@ -231,18 +279,22 @@
 <div id="methods" class="section level3">
 <h3 class="hasAnchor">
 <a href="#methods" class="anchor"></a>Methods</h3>
-<p><strong>GSVA</strong>: <img src="../fig/golub_dags_gsva_VennDiagram.png" style="width:50.0%" alt="GSVA"></p>
-<p><strong>ssGSEA</strong>: <img src="../fig/golub_dags_ssgsea_VennDiagram.png" style="width:50.0%" alt="ssGSEA"></p>
-<p><strong>PLAGE</strong>: <img src="../fig/golub_dags_plage_VennDiagram.png" style="width:50.0%" alt="PLAGE"></p>
-<p><strong>ovltools</strong>: <img src="../fig/golub_dags_ovltools_VennDiagram.png" style="width:50.0%" alt="ovltools"></p>
+<ul>
+<li><p><strong>GSVA</strong>: <img src="../fig/golub_dags_gsva_VennDiagram.png" style="width:50.0%" alt="GSVA"></p></li>
+<li><p><strong>ssGSEA</strong>: <img src="../fig/golub_dags_ssgsea_VennDiagram.png" style="width:50.0%" alt="ssGSEA"></p></li>
+<li><p><strong>PLAGE</strong>: <img src="../fig/golub_dags_plage_VennDiagram.png" style="width:50.0%" alt="PLAGE"></p></li>
+<li><p><strong>ovltools</strong>: <img src="../fig/golub_dags_ovltools_VennDiagram.png" style="width:50.0%" alt="ovltools"></p></li>
+</ul>
 </div>
 <div id="datasets" class="section level3">
 <h3 class="hasAnchor">
 <a href="#datasets" class="anchor"></a>Datasets</h3>
-<p><strong>Train</strong>: <img src="../fig/golub_train_dags_VennDiagram.png" style="width:50.0%" alt="Train"></p>
-<p><strong>Test</strong>: <img src="../fig/golub_test_dags_VennDiagram.png" style="width:50.0%" alt="Test"></p>
-<p><strong>Common</strong>: <img src="../fig/golub_common_dags_VennDiagram.png" style="width:50.0%" alt="Common"></p>
-<p><strong>All</strong>: <img src="../fig/golub_all_dags_VennDiagram.png" style="width:50.0%" alt="All"></p>
+<ul>
+<li><p><strong>Train</strong>: <img src="../fig/golub_train_dags_VennDiagram.png" style="width:50.0%" alt="Train"></p></li>
+<li><p><strong>Test</strong>: <img src="../fig/golub_test_dags_VennDiagram.png" style="width:50.0%" alt="Test"></p></li>
+<li><p><strong>Common</strong>: <img src="../fig/golub_common_dags_VennDiagram.png" style="width:50.0%" alt="Common"></p></li>
+<li><p><strong>All</strong>: <img src="../fig/golub_all_dags_VennDiagram.png" style="width:50.0%" alt="All"></p></li>
+</ul>
 </div>
 </div>
   </div>

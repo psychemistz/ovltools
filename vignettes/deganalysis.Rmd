@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Differential Gene Expression Analysis with conventional methods
 
-```{r deg_with_conventional, echo=FALSE}
+```{r deg_with_conventional}
 suppressPackageStartupMessages(library(golubEsets))
 data("Golub_Train")
 data("Golub_Test")
@@ -148,7 +148,7 @@ ovl_ratio = length(ovl_DEG_common) / length(ovl_DEG_all)
 
 ## Draw Venn diagrams
 
-```{r venn, echo=FALSE}
+```{r venn}
 # draw_venn(list(ovl_DEG_train, ovl_DEG_test), cat.name=c("ovl_train", "ovl_test"), f.name="../fig/golub_deg_ovltools_VennDiagram.png")
 # draw_venn(list(t_DEG_train, t_DEG_test), cat.name=c("t_train", "t_test"), f.name="../fig/golub_deg_t_VennDiagram.png")
 # draw_venn(list(limma_DEG_train, limma_DEG_test), cat.name=c("limma_train", "limma_test"), f.name="../fig/golub_deg_limma_VennDiagram.png")
