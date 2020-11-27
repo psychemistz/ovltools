@@ -8,6 +8,7 @@
 #' x1 = as.character(c(1:5))
 #' x2 = as.character(c(3:10))
 #' draw_venn(list(x1, x2), cat.name=c("x1", "x2"), f.name="test.venn.png")
+#' @import VennDiagram
 #' @export
 #' @description
 #' utility function to draw Venn diagram of two or three character vectors.
@@ -49,6 +50,7 @@ draw_venn <- function(x, cat.name, f.name){
 #' colnames(gex) = paste0("sid", 1:100)
 #' label = factor(c(rep("ALL", 50), rep("AML", 50)), levels=c("ALL", "AML"))
 #' limma_deg(gex, label)
+#' @import limma
 #' @export
 #' @description
 #' utility function to get differential expression table from limma function in limma package.
