@@ -1,8 +1,12 @@
 ---
 title: "Differential Gene Expression Analysis"
 author: "Seongyong_Park"
-date: '2020 11 26 '
-output: html_document
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Differential Gene Expression Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
